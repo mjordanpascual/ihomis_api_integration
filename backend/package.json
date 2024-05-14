@@ -14,11 +14,15 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.15",
+    "@sequelize/mysql": "^7.0.0-alpha.40",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "install": "^0.13.0",
     "mysql": "^2.18.1",
+    "mysql2": "^3.9.7",
     "nodemon": "^3.0.3",
-    "npm": "^10.5.2"
+    "npm": "^10.5.2",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2"
   }
 }

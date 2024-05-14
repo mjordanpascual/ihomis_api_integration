@@ -1,24 +1,6 @@
 const express = require('express')
 const router = express.Router()
-// const connection = require('../connection');
-
-
-
-const userController = require("../controllers/userController")
-
-// router.post('/checkuser', (req, res) => {
-//     userController.checkUser(req.body).then(resultFromController => res.send(resultFromController));
-// })
-
-
-// router.get('/count', (req, res) => {
-//     userController.count(req.body).then(resultFromController => res.send(resultFromController));
-// })
-
-router.get('/', userController.get )
-// router.get('/count', userController.get )
-
-
+const app = express();
 
 
 // router.get('/', (req, res) => {
@@ -38,26 +20,26 @@ router.get('/', userController.get )
 
 
 
-// router.get('/', (req, res) => {
-//     const sql = `SELECT count(*) AS 'Total' FROM hperson`;
+router.get('/', (req, res) => {
+    const sql = `SELECT count(*) AS 'Total' FROM hperson`;
 
-//     db.query(sql, (err, data) => {
-//         if(err) return res.json(err);
-//         return res.json(data);
-//         // return res.send(data);
-//     })
-// })
+    db.query(sql, (err, data) => {
+        if(err) return res.json(err);
+        return res.json(data);
+        // return res.send(data);
+    })
+})
 
 
-// router.get('/count', (req, res) => {
-//     const sql = `SELECT count(*) AS 'Total' FROM hperson`;
+router.get('/count', (req, res) => {
+    const sql = `SELECT count(*) AS 'Total' FROM hperson`;
 
-//     db.query(sql, (err, data) => {
-//         if(err) return res.json(err);
-//         return res.json(data);
-//         // return res.send(data);
-//     })
-// })
+    db.query(sql, (err, data) => {
+        if(err) return res.json(err);
+        return res.json(data);
+        // return res.send(data);
+    })
+})
 
 // app.get('/users/adm', (req, res) => {
 //     const sql = `   SELECT distinct hperson.patlast,
@@ -156,9 +138,6 @@ router.get('/', userController.get )
 //         }
 //     });
 // });
-
-
-
 
 
 
