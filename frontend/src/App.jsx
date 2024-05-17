@@ -7,6 +7,7 @@ import UIS from './forms/UIS';
 import Dashboard from './pages/Dashboard';
 import Sidebar from './pages/Sidebar';
 import Adm from './forms/Adm';
+import Login from './pages/Login'
 
 function App() {
 
@@ -17,10 +18,11 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Home />} />
         <Route path="users/adm" element={<Adm />} />
         <Route path="/uis" element={<UIS />} />
         <Route path="/dashboard" element={ <Dashboard /> } ></Route>
+        <Route path="/login" element={ <Login /> } />
       </Routes>
     </BrowserRouter>
   )
