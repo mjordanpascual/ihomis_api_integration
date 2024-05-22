@@ -1,19 +1,243 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Swal2 from 'sweetalert2'
+import { Navigate, useNavigate, Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Login = () => {
 
+	const navigate = useNavigate();
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [error, setError] = useState('');
     const [isDisabled, setIsDisabled] = useState(true);
 
-    function handleSubmit (e) {
-		e.preventDefault();
-        // alert('Clicked!')
-        Swal2.fire({
-            title: "Good job!",
-            text: "You clicked the button!",
-            icon: "success"
-          });
-    }
+    useEffect(()=>{
+        if(username == '' || password == ''){
+            setIsDisabled(true);
+        } else {
+            setIsDisabled(false);
+        }
+    }, [username, password])
+
+
+
+    // function handleSubmit (e) {
+	// 	e.preventDefault();
+
+
+    //     fetch('http:localhost:8081/users/login', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type' : 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             api_userName : username,
+    //             api_userPass : password
+    //         })
+    //     })
+    //     .then(response => response.json(response.data))
+	// 		.then(data => {
+
+	// 			if(data === false){
+	// 				let timerInterval
+	// 				Swal2.fire({
+	// 					title: 'Login unsuccessful!',
+	// 					icon: 'error',
+	// 					  html: 'Please try again in <b></b> milliseconds.',
+	// 					  timer: 2500,
+	// 					  timerProgressBar: true,
+	// 					  didOpen: () => {
+	// 					    Swal2.showLoading()
+	// 					    const b = Swal2.getHtmlContainer().querySelector('b')
+	// 					    timerInterval = setInterval(() => {
+	// 					      b.textContent = Swal2.getTimerLeft()
+	// 					    }, 100)
+	// 					  },
+	// 					  willClose: () => {
+	// 					    clearInterval(timerInterval)
+	// 					  }
+	// 					})
+
+
+	// 			} else if (data.isAdmin == true){
+	// 				// localStorage.setItem('token', data.access)
+					
+	// 				// retrieveUserDetails(data.access)
+
+	// 				let timerInterval
+	// 				Swal2.fire({
+	// 					title: 'Welcome User',
+	// 					icon: 'success',
+	// 					  html: 'You will redirecting to Dashboard page in <b></b>.',
+	// 					  timer: 2500,
+	// 					  timerProgressBar: true,
+	// 					  didOpen: () => {
+	// 					    Swal2.showLoading()
+	// 					    const b = Swal2.getHtmlContainer().querySelector('b')
+	// 					    timerInterval = setInterval(() => {
+	// 					      b.textContent = Swal2.getTimerLeft()
+	// 					    }, 100)
+	// 					  },
+	// 					  willClose: () => {
+	// 					    clearInterval(timerInterval)
+	// 					  }
+	// 					})
+					
+	// 			navigate('/dashboard')
+
+	// 			} else {
+	// 				localStorage.setItem('token', data.access)
+					
+	// 				retrieveUserDetails(data.access)
+
+	// 				let timerInterval
+	// 				Swal2.fire({
+	// 					title: `Welcome, ${email}`,
+	// 					icon: 'success',
+	// 					  html: 'You will redirecting to home page in <b></b>.',
+	// 					  timer: 2500,
+	// 					  timerProgressBar: true,
+	// 					  didOpen: () => {
+	// 					    Swal2.showLoading()
+	// 					    const b = Swal2.getHtmlContainer().querySelector('b')
+	// 					    timerInterval = setInterval(() => {
+	// 					      b.textContent = Swal2.getTimerLeft()
+	// 					    }, 100)
+	// 					  },
+	// 					  willClose: () => {
+	// 					    clearInterval(timerInterval)
+	// 					  }
+	// 					})
+					
+	// 				navigate('/')
+	// 			}
+
+
+	// 		})
+
+	// }
+
+
+
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+
+    //     try {
+    //         const response = await axios.post('http://localhost:8081/users/login', { username, password });
+    //         // setMessage('Login successful');
+    //         return response;
+    //         // localStorage.setItem('token', response.data.token); // Store the JWT token
+    //     } catch (error) {
+    //         // setMessage('Login failed');
+    //         return error;
+    //     }
+    // };
+
+    // function handleSubmit (e) {
+    //     e.preventDefault();
+
+    //     fetch('http://localhost:8081/users/login', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type' : 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             api_userName : username,
+    //             api_userPass : password
+    //         })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         if(!data){
+    //             let timerInterval
+    //             Swal2.fire({
+    //                 title: 'Login unsuccessful!',
+    //                 icon: 'error',
+    //                 html: 'Please try again in <b></b> milliseconds.',
+    //                 timer: 2000,
+    //                 timerProgressBar: true,
+    //                 didOpen: () => {
+    //                 Swal2.showLoading()
+    //                 const b = Swal2.getHtmlContainer().querySelector('b')
+    //                 timerInterval = setInterval(() => {
+    //                     b.textContent = Swal2.getTimerLeft()
+    //                 }, 100)
+    //                 },
+    //                 willClose: () => {
+    //                 clearInterval(timerInterval)
+    //                 }
+    //             })
+    //         }
+    //         else {
+    //             let timerInterval
+    //             Swal2.fire({
+    //                 title: 'Welcome Users',
+    //                 icon: 'success',
+    //                 html: 'You will redirecting to Dashboard page in <b></b>.',
+    //                 timer: 2000,
+    //                 timerProgressBar: true,
+    //                 didOpen: () => {
+    //                 Swal2.showLoading()
+    //                 const b = Swal2.getHtmlContainer().querySelector('b')
+    //                 timerInterval = setInterval(() => {
+    //                     b.textContent = Swal2.getTimerLeft()
+    //                 }, 100)
+    //                 },
+    //                 willClose: () => {
+    //                 clearInterval(timerInterval)
+    //                 }
+    //             })
+    //         navigate('/dashboard')
+    //         }
+    //     })
+    // }
+
+
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setError('');
+
+        try {
+            const response = await axios.post('http://localhost:8081/users/login', {
+                username,
+                password
+            });
+
+            if (response.data.success) {
+                // Handle successful login, e.g., store token, redirect user, etc.
+                console.log('Login successful:', response.data);
+                // let timerInterval
+                //     Swal2.fire({
+                //         title: 'Welcome Users',
+                //         icon: 'success',
+                //         html: 'You will redirecting to Dashboard page in <b></b>.',
+                //         timer: 2000,
+                //         timerProgressBar: true,
+                //         didOpen: () => {
+                //         Swal2.showLoading()
+                //         const b = Swal2.getHtmlContainer().querySelector('b')
+                //         timerInterval = setInterval(() => {
+                //             b.textContent = Swal2.getTimerLeft()
+                //         }, 100)
+                //         },
+                //         willClose: () => {
+                //         clearInterval(timerInterval)
+                //         }
+                //     })
+                // navigate('/dashboard')
+            } else {
+                // Handle login failure
+                setError(response.data.message);
+            }
+        } catch (error) {
+            setError('An error occurred. Please try again.');
+            console.error('Login error:', error);
+        }
+    };
+
 
 
   return (
@@ -23,53 +247,46 @@ const Login = () => {
                 <h1 className='font-bold'>Login</h1>
                 <p className='text-sm'>Welcome back again  </p>
             </div>
-            <form className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
+
+            <form onSubmit={handleSubmit} className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'>
                     <div className='mb-4'>
-                        <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='email'>Username: </label>
-                        <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="email" name="email" id="email" placeholder="Enter username" />
+                        <label 
+                        className='block text-gray-700 text-sm font-bold mb-2' 
+                        htmlFor='email'>Username: 
+                        </label>
+                        <input 
+                        value={username} 
+                        onChange={e => setUsername(e.target.value)} 
+                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
+                        type="text" 
+                        name="email" 
+                        id="email" 
+                        placeholder="Enter username" />
                     </div>
                     <div className='mb-4'>
-                        <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='password'>Password: </label>
-                        <input className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' type="password" name="password" id="password" placeholder="Enter password" />
+                        <label 
+                        className='block text-gray-700 text-sm font-bold mb-2' 
+                        htmlFor='password'>Password: 
+                        </label>
+                        <input 
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline' 
+                        type="password" 
+                        name="password" 
+                        id="password" 
+                        placeholder="Enter password" />
                     </div>
                     
-                    <button type="button" className='w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' onClick={handleSubmit} >Login</button>
+                    <button 
+                    type="submit" 
+                    className='w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' 
+                    disabled = {isDisabled}>Login</button>
+                    {error && <p style={{ color: 'red' }}>{error}</p>}
+
             </form>
+            
         </div>
-
-
-        {/* <div class="w-full max-w-xs">
-            <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
-                    Username
-                </label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Username" />
-                </div>
-                <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                    Password
-                </label>
-                <input class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="******************" >
-                <p class="text-red-500 text-xs italic">Please choose a password.</p>
-                </div>
-                <div class="flex items-center justify-between">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                    Sign In
-                </button>
-                <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="#">
-                    Forgot Password?
-                </a>
-                </div>
-            </form>
-            <p class="text-center text-gray-500 text-xs">
-                &copy;2020 Acme Corp. All rights reserved.
-            </p>
-        </div> */}
-
-        
-
-
 
     </>
   )

@@ -3,6 +3,7 @@ const express = require('express')
 const router = express.Router()
 const db = require('../connection');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { error } = require('console');
 
 
@@ -20,6 +21,21 @@ const { error } = require('console');
 // })
 
 
+const authenticate = (req, res, next) => {
+    const token = req.headers['authorization'];
+    if (!token) {
+        return res.status(401).send('Access denied. No token provided.');
+    }
+
+    try {
+        const decoded = jwt.verify(token, 'your_jwt_secret');
+        req.user = decoded;
+        next();
+    } catch (ex) {
+        res.status(400).send('Invalid token.');
+    }
+};
+
 
 router.post('/register', async (req, res) => {
     const { api_userName, api_userPass } = req.body;
@@ -34,9 +50,16 @@ router.post('/register', async (req, res) => {
 
         // Store the new user with the hashed password
         const sql = 'INSERT INTO api_user_acc (api_username, api_userPass) VALUES (?, ?)';
-        await db.query(sql, [api_userName, hashedPassword]);
+        // await db.query(sql, [api_userName, hashedPassword]);
 
-        res.json({ message: 'User registered successfully' });
+        // res.json({ message: 'User registered successfully' });
+        db.query('INSERT INTO api_user_acc (api_userName, api_userPass) VALUES (?, ?)', [api_userName, hashedPassword], (err, results) => {
+            if (err) {
+                console.error('Error inserting user into database:', err);
+                return res.status(500).send('Server error.');
+            }
+            res.status(201).send('User registered.');
+        });
     } catch (error) {
         res.status(500).json({ message: 'Database error', error: error.message });
     }
@@ -61,7 +84,7 @@ router.post('/register', async (req, res) => {
 // })
 
 router.get('/getuser', async (req, res) => {
-    const sql = `SELECT * FROM user_acc`;
+    const sql = `SELECT * FROM api_user_acc`;
     db.query(sql, (error, results) => {
         if(error) return res.json(error);
         return res.json(results);
@@ -91,34 +114,67 @@ router.get('/getuser', async (req, res) => {
 
 
 
-router.post('/login', async (req, res) => {
-    const { api_userName } = req.body;
+// router.post('/login', async (req, res) => {
+//     const { api_userName, api_userPass } = req.body;
 
-    // Basic validation
-    if (!api_userName) {
-        return res.status(400).json({ message: 'Username and password are required' });
-    }
+//     // Basic validation
+//     if (!api_userName || !api_userPass) {
+//         return res.status(400).json({ message: 'Username and password are required' });
+//     }
 
-    // SQL query to check for user
-    const sql = 'SELECT api_userName FROM api_user_acc WHERE api_user_name = ?';
+//     // SQL query to check for user
+//     const sql = 'SELECT api_userName, api_userPass FROM api_user_acc WHERE api_user_name = ?';
     
-    try {
-        // Execute the query
-        // const ['[-]'] = await db.promise().query(sql, [user_name, user_pass]);
-       db.query(sql, (error, results));
+//     try {
+//         // Execute the query
+//         // const ['[-]'] = await db.promise().query(sql, [user_name, user_pass]);
+//        db.query(sql, (error, results));
 
-        // Check if user exists
-        if (results.length > 0) {
-            // User found
-            res.json({ message: 'Login successful', user: results[0] });
-        } else {
-            // User not found
-            res.status(401).json({ message: 'Invalid username or password' });
-        }
-    } catch (error) {
-        // Handle any errors
-        res.status(500).json({ message: 'Database error', error: error.message });
+//         // Check if user exists
+//         if (results.length > 0) {
+//             // User found
+//             res.json({ message: 'Login successful', user: results[0] });
+//         } else {
+//             // User not found
+//             res.status(401).json({ message: 'Invalid username or password' });
+//         }
+//     } catch (error) {
+//         // Handle any errors
+//         res.status(500).json({ message: 'Database error', error: error.message });
+//     }
+// });
+
+
+router.post('/login', (req, res) => {
+    const { api_userName, api_userPass } = req.body;
+
+if (!api_userName) {
+        return res.status(400).send('Username and password are required.');
     }
+
+    db.query('SELECT * FROM api_user_acc WHERE api_userName = ?', [api_userName], async (err, results) => {
+        if (err) {
+            console.error('Error querying the database:', err);
+            return res.status(500).send('Server error.');
+        }
+
+        if (results.length === 0) {
+            return res.status(401).send('Invalid credentials.');
+            // const result = console.log('Error in logged ');
+            // return false;
+        }
+
+        const user = results[0];
+        const isMatch = await bcrypt.compare(api_userPass, user.api_userPass);
+
+        if (!isMatch) {
+            return res.status(401).send('Invalid credentialssss.');
+        }
+
+        const token = jwt.sign({ id: user.id, username: user.username }, 'your_jwt_secret', { expiresIn: '1h' });
+
+        res.status(200).json({ token });
+    });
 });
 
 
