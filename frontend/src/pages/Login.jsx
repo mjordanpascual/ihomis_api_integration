@@ -196,47 +196,62 @@ const Login = () => {
 
 
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setError('');
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     setError('');
 
-        try {
-            const response = await axios.post('http://localhost:8081/users/login', {
-                username,
-                password
-            });
+    //     try {
+    //         const response = await axios.post('http://localhost:8081/users/login', {
+    //             username,
+    //             password
+    //         });
 
-            if (response.data.success) {
-                // Handle successful login, e.g., store token, redirect user, etc.
-                console.log('Login successful:', response.data);
-                // let timerInterval
-                //     Swal2.fire({
-                //         title: 'Welcome Users',
-                //         icon: 'success',
-                //         html: 'You will redirecting to Dashboard page in <b></b>.',
-                //         timer: 2000,
-                //         timerProgressBar: true,
-                //         didOpen: () => {
-                //         Swal2.showLoading()
-                //         const b = Swal2.getHtmlContainer().querySelector('b')
-                //         timerInterval = setInterval(() => {
-                //             b.textContent = Swal2.getTimerLeft()
-                //         }, 100)
-                //         },
-                //         willClose: () => {
-                //         clearInterval(timerInterval)
-                //         }
-                //     })
-                // navigate('/dashboard')
-            } else {
-                // Handle login failure
-                setError(response.data.message);
-            }
-        } catch (error) {
-            setError('An error occurred. Please try again.');
-            console.error('Login error:', error);
-        }
-    };
+    //         if (response.data.success) {
+    //             // Handle successful login, e.g., store token, redirect user, etc.
+    //             console.log('Login successful:', response.data);
+    //             // let timerInterval
+    //             //     Swal2.fire({
+    //             //         title: 'Welcome Users',
+    //             //         icon: 'success',
+    //             //         html: 'You will redirecting to Dashboard page in <b></b>.',
+    //             //         timer: 2000,
+    //             //         timerProgressBar: true,
+    //             //         didOpen: () => {
+    //             //         Swal2.showLoading()
+    //             //         const b = Swal2.getHtmlContainer().querySelector('b')
+    //             //         timerInterval = setInterval(() => {
+    //             //             b.textContent = Swal2.getTimerLeft()
+    //             //         }, 100)
+    //             //         },
+    //             //         willClose: () => {
+    //             //         clearInterval(timerInterval)
+    //             //         }
+    //             //     })
+    //             // navigate('/dashboard')
+    //         } else {
+    //             // Handle login failure
+    //             setError(response.data.message);
+    //         }
+    //     } catch (error) {
+    //         setError('An error occurred. Please try again.');
+    //         console.error('Login error:', error);
+    //     }
+    // };
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // const responce = axios.post('http://localhost:8081/users/login', {username, password}, (e));
+        axios.get('http://localhost:8081/users/login', [username, password])
+            .then((response) => {
+                console.log(response.data)
+            })
+            
+        
+
+
+    }
 
 
 

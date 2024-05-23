@@ -37,6 +37,25 @@ const authenticate = (req, res, next) => {
 };
 
 
+router.post('/checkuser', (req, res) => {
+    const {api_userName} = req.body
+    const sql = `SELECT api_userName FROM api_user_acc WHERE api_userName = ?`;
+
+    db.query(sql, [api_userName], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Database query error' });
+        }
+        if (results.length > 0) {
+            return res.status(200).json({ userExists: true });
+        } else {
+            return res.status(404).json({ userExists: false });
+        }
+
+    })
+})
+
+
+
 router.post('/register', async (req, res) => {
     const { api_userName, api_userPass } = req.body;
 
@@ -67,22 +86,6 @@ router.post('/register', async (req, res) => {
 
 
 
-
-// router.get('getuser', async (req, res) => {
-//     try {
-//         const data = await db.promise().query(
-//             `SELECT * FROM user_acc`
-//         );
-//         res.status(202).json({
-//             users: data[0],
-//         });
-//     } catch(error) {
-//         res.status(500).json({
-//             message: error,
-//         });
-//     }
-// })
-
 router.get('/getuser', async (req, res) => {
     const sql = `SELECT * FROM api_user_acc`;
     db.query(sql, (error, results) => {
@@ -91,58 +94,6 @@ router.get('/getuser', async (req, res) => {
     }) 
 })
 
-
-// router.post('/login', (req, res) => {
-//     const  { api_userName, api_userPass } = req.body
-
-//     // Basic validation
-//     if (!api_userName || !api_userPass) {
-//         return res.status(400).json({ message: 'Username and password are required' });
-//     }
-
-//     const sql = `SELECT api_userName, api_userPass FROM api_user_acc WHERE api_userName = ? and api_userPass = ?`;
-//     db.query(sql, [api_userName, api_userPass], (error, results) => {
-//         if(error) {
-//             return res.json({message: 'Login successful'});
-//             // return false;
-//         }
-//         else {
-//             return res.json(results);        
-//         }
-//     })
-// })
-
-
-
-// router.post('/login', async (req, res) => {
-//     const { api_userName, api_userPass } = req.body;
-
-//     // Basic validation
-//     if (!api_userName || !api_userPass) {
-//         return res.status(400).json({ message: 'Username and password are required' });
-//     }
-
-//     // SQL query to check for user
-//     const sql = 'SELECT api_userName, api_userPass FROM api_user_acc WHERE api_user_name = ?';
-    
-//     try {
-//         // Execute the query
-//         // const ['[-]'] = await db.promise().query(sql, [user_name, user_pass]);
-//        db.query(sql, (error, results));
-
-//         // Check if user exists
-//         if (results.length > 0) {
-//             // User found
-//             res.json({ message: 'Login successful', user: results[0] });
-//         } else {
-//             // User not found
-//             res.status(401).json({ message: 'Invalid username or password' });
-//         }
-//     } catch (error) {
-//         // Handle any errors
-//         res.status(500).json({ message: 'Database error', error: error.message });
-//     }
-// });
 
 
 router.post('/login', (req, res) => {
