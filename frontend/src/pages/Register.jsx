@@ -201,7 +201,7 @@ const Register = () => {
 
   return (
     <div>
-        <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="flex min-h-full flex-col justify-center lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                 <img className="mx-auto h-20 w-auto" src={osparlogo} alt="Ospar logo" />
                 <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign up new ihomis account</h2>
@@ -219,9 +219,6 @@ const Register = () => {
                          placeholder='Enter username'
                          required 
                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-                        //  value={formData.username} 
-                        //  onChange={e => setUsername(e.target.value)} />
-                        //  onChange={handleChange}
                         value={api_userName}
                         onChange={(e) => setUsername(e.target.value)}
                           />
@@ -241,16 +238,13 @@ const Register = () => {
                          placeholder='Enter password'
                          required 
                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
-                        //  value={formData.password} 
-                        //  onChange={e => setPassword(e.target.value)} />
-                        // onChange={handleChange}
                         value={api_userPass1}
                         onChange={(e) => setPassword1(e.target.value)}
                          />
                     </div>
                 </div>
                 {/* {errorMessage && <p>{errorMessage}</p>} */}
-                {/* <div>
+                <div>
                     <div className="flex items-center justify-between">
                     <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
                     </div>
@@ -272,7 +266,7 @@ const Register = () => {
                         Password does not match! Please Try Again!
                     </div>
                     </div>
-                </div> */}
+                </div>
 
                 <div className="text-sm">
                         <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
