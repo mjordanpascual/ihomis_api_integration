@@ -4,21 +4,6 @@ const router = express.Router()
 const db = require('../connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { error } = require('console');
-
-
-// router.post('/register', (req,res)=>{
-//     const  {api_userName, api_userPass, api_userRole} = req.body
-
-//     try {
-//         const sql = `INSERT INTO api_user_acc (api_username, api_userPass) VALUES (?, ?)`;
-//         db.query(sql, [api_userName, api_userPass, api_userRole]);
-
-//         res.status(200).send("Data inserted successfully!");
-//     } catch (error) {
-//         res.status(404).send(error)
-//     }
-// })
 
 
 const authenticate = (req, res, next) => {
@@ -37,18 +22,20 @@ const authenticate = (req, res, next) => {
 };
 
 
-router.post('/checkuser', (req, res) => {
+router.post('/checkuser', async (req, res) => {
     const {api_userName} = req.body
-    const sql = `SELECT api_userName FROM api_user_acc WHERE api_userName = ?`;
+    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
 
-    db.query(sql, [api_userName], (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: 'Database query error' });
-        }
+    db.query(sql, api_userName, (error, results) => {
+        // if (error) {
+        //     return res.status(500).json({ error: 'Database query error' });
+        // }
         if (results.length > 0) {
-            return res.status(200).json({ userExists: true });
+            // return res.status(200).json({ userExists: true });
+            return res.send(results);
         } else {
-            return res.status(404).json({ userExists: false });
+            // return res.status(404).json({ userExists: false });
+            return res.send(false);
         }
 
     })
@@ -66,21 +53,23 @@ router.post('/register', async (req, res) => {
     try {
         // Hash the password
         const hashedPassword = await bcrypt.hash(api_userPass, 10);
-
         // Store the new user with the hashed password
-        const sql = 'INSERT INTO api_user_acc (api_username, api_userPass) VALUES (?, ?)';
-        // await db.query(sql, [api_userName, hashedPassword]);
+        const checkUsernameExist = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
 
-        // res.json({ message: 'User registered successfully' });
-        db.query('INSERT INTO api_user_acc (api_userName, api_userPass) VALUES (?, ?)', [api_userName, hashedPassword], (err, results) => {
-            if (err) {
-                console.error('Error inserting user into database:', err);
-                return res.status(500).send('Server error.');
+        db.query(checkUsernameExist, [api_userName], (error, results) => {
+            if(error) throw error;
+            if(results.length > 0) {
+                return res.status(400).send('Error inserting username into database: ');
+            } else {
+                const sql = `INSERT INTO api_user_acc (api_userName, api_userPass) VALUES (?, ?)`;
+                db.query(sql, [api_userName, api_userPass], (error, results) => {
+                    if(error) throw error;
+                    return res.status(200).send('User Registered')
+                })
             }
-            res.status(201).send('User registered.');
-        });
-    } catch (error) {
-        res.status(500).json({ message: 'Database error', error: error.message });
+        })
+        } catch (error) {
+            res.status(500).json({ message: 'Database error', error: error.message });
     }
 });
 
@@ -99,33 +88,54 @@ router.get('/getuser', async (req, res) => {
 router.post('/login', (req, res) => {
     const { api_userName, api_userPass } = req.body;
 
-if (!api_userName) {
-        return res.status(400).send('Username and password are required.');
-    }
+// if (!api_userName) {
+//         return res.status(400).send('Username and password are required.');
+//     }
 
-    db.query('SELECT * FROM api_user_acc WHERE api_userName = ?', [api_userName], async (err, results) => {
-        if (err) {
-            console.error('Error querying the database:', err);
-            return res.status(500).send('Server error.');
+    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?, api_userPass = ?`;
+
+    db.query(sql, [api_userName, api_userPass], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Database login error' });
+        } 
+        if (results){
+            return res.status(200).send('Successfully login');
         }
-
-        if (results.length === 0) {
-            return res.status(401).send('Invalid credentials.');
-            // const result = console.log('Error in logged ');
-            // return false;
+        else {
+             res.status(404).send('Failed');
         }
+    })
 
-        const user = results[0];
-        const isMatch = await bcrypt.compare(api_userPass, user.api_userPass);
 
-        if (!isMatch) {
-            return res.status(401).send('Invalid credentialssss.');
-        }
 
-        const token = jwt.sign({ id: user.id, username: user.username }, 'your_jwt_secret', { expiresIn: '1h' });
+    // db.query('SELECT * FROM api_user_acc WHERE api_userName = ?', [api_userName, api_userPass], async (err, results) => {
+    //     if (err) {
+    //         console.error('Error querying the database:', err);
+    //         return res.status(500).send('Server error.');
+    //     } 
 
-        res.status(200).json({ token });
-    });
+    //     // if (results.length === 0) {
+    //     //     return res.status(401).send('Invalid credentials.');
+    //     //     // const result = console.log('Error in logged ');
+    //     //     // return false;
+    //     // }
+    //     if(results == null){
+    //         return false;   
+    //     }
+    //     else {
+    //         const user = results[0];
+    //         // const isMatch = await bcrypt.compare(api_userPass, user.api_userPass);
+    //         const isMatch = [api_userPass];
+    
+    //         if (!isMatch) {
+    //             return res.status(401).send('Invalid credentialssss.');
+    //         } else {
+    //             const token = jwt.sign({ id: user.id, username: user.username }, 'your_jwt_secret', { expiresIn: '1h' });
+    //             res.status(200).json({ token });
+    //         }    
+    //     }
+        
+    // });
 });
 
 

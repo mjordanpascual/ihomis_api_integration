@@ -10,6 +10,7 @@ import Adm from './forms/Adm';
 import Login from './pages/Login'
 import Register from './pages/Register'
 import NoPageFound from './pages/NoPageFound'
+import CheckUsername from './pages/CheckUsername';
 
 
 
@@ -20,11 +21,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="users/adm" element={<Adm />} />
+        {/* <Route path="users/adm" element={<Adm />} /> */}
         <Route path="/uis" element={<UIS />} />
         <Route path="/dashboard" element={ <Dashboard /> } ></Route>
-        {/* <Route path="/login" element={ <Login /> } /> */}
+        <Route path="/login" element={ <Login /> } />
         <Route path="/register" element={ <Register /> } />
+        <Route path="/checkuser" element={ <CheckUsername /> } />
 
         <Route path = '*' element={<NoPageFound />} />
       </Routes>

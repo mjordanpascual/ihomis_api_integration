@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-
+const mysql = require('mysql2');
 
 const app = express();
 
@@ -11,6 +11,8 @@ const app = express();
 app.use(express.json())
 app.use(cors())
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // app.get('/', (req, res) => {
 //   const sql = `SELECT count(*) AS 'Total' FROM hperson`;
@@ -28,7 +30,6 @@ app.use(cors())
 //Routers
 const userRouter = require('./routes/userRoutes');
 app.use("/users", userRouter );
-
 
 
 app.listen(8081, () => {
