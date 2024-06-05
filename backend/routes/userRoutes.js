@@ -92,17 +92,17 @@ router.post('/login', (req, res) => {
 //         return res.status(400).send('Username and password are required.');
 //     }
 
-    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?, api_userPass = ?`;
+    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
 
     db.query(sql, [api_userName, api_userPass], (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Database login error' });
         } 
-        if (results){
+        if (results.length > 0){
             return res.status(200).send('Successfully login');
         }
         else {
-             res.status(404).send('Failed');
+             res.status(404).send('No record found.');
         }
     })
 

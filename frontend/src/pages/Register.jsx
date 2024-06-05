@@ -4,7 +4,7 @@ import axios from 'axios'
 import Swal2 from 'sweetalert2';
 
 import osparlogo from '../assets/ospar1logo.png'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
 
@@ -54,7 +54,7 @@ const Register = () => {
 				icon: 'error',
 				text: 'Check your email address and try again',
                 html: 'I will close in <b></b> milliseconds.',
-                timer: 3000,
+                timer: 1000,
                 timerProgressBar: true,
                 didOpen: () => {
                 Swal2.showLoading()
@@ -86,7 +86,7 @@ const Register = () => {
 						title: 'Registration Successful!',
 						icon: 'success',
 						html: 'I will close in <b></b> milliseconds.',
-						timer: 3000,
+						timer: 1000,
 						timerProgressBar: true,
 						didOpen: () => {
 							Swal2.showLoading()
@@ -108,7 +108,7 @@ const Register = () => {
 					title: 'Registration unsuccessful!',
 					icon: 'error',
                     html: 'I will close in <b></b> milliseconds.',
-                    timer: 3000,
+                    timer: 1000,
                     timerProgressBar: true,
                     didOpen: () => {
                     Swal2.showLoading()
@@ -123,10 +123,11 @@ const Register = () => {
 					})
 			}
 		})
-
 	}
-})
-
+            setUsername('');
+            setPassword1('');
+            setPassword2('');
+        })
 	}
 
 
@@ -216,7 +217,7 @@ const Register = () => {
                          name="username" 
                          type="text" 
                          autoComplete="username" 
-                         placeholder='Enter username'
+                         placeholder='  Enter username'
                          required 
                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                         value={api_userName}
@@ -235,7 +236,7 @@ const Register = () => {
                          name="password2" 
                          type="password" 
                          autoComplete="password" 
-                         placeholder='Enter password'
+                         placeholder='  Enter password'
                          required 
                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                         value={api_userPass1}
@@ -254,12 +255,13 @@ const Register = () => {
                          name="password2" 
                          type="password" 
                          autoComplete="password" 
-                         placeholder='Confirm password'
+                         placeholder='   Confirm password'
                          required 
                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" 
                         //  value={formData.password} 
                         //  onChange={e => setPassword(e.target.value)} />
                         // onChange={handleChange}
+                        value={api_userPass2}
                         onChange={(e) => setPassword2(e.target.value)}
                          />
                     <div className="text-danger" hidden = {isPasswordMatch}>
@@ -279,7 +281,7 @@ const Register = () => {
                 <p className="mt-10 text-center text-sm text-gray-500">
                 Already have Account? 
                 <a 
-                href="#" className="font-semibold leading-6 text-green-600 hover:text-indigo-500"> Login</a>
+                href="#" className="font-semibold leading-6 text-green-600 hover:text-indigo-500"><Link>Login</Link></a>
                 </p>
             </div>
         </div>
