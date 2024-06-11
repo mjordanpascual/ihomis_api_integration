@@ -200,6 +200,30 @@ const Register = () => {
 // };
 
 
+function forgetPass (e) {
+    e.preventDefault();
+
+    // alert('Wag makulit!');
+    let timerInterval
+        Swal2.fire({
+            title: 'BOBO MO!',
+            icon: 'error',
+            html: 'I will close in <b></b> milliseconds.',
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+            Swal2.showLoading()
+            const b = Swal2.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+                b.textContent = Swal2.getTimerLeft()
+            }, 100)
+            },
+            willClose: () => {
+            clearInterval(timerInterval)
+            }
+        })
+}
+
   return (
     <div>
         <div className="flex min-h-full flex-col justify-center lg:px-8">
@@ -271,17 +295,17 @@ const Register = () => {
                 </div>
 
                 <div className="text-sm">
-                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                        <a href="#" onClick={forgetPass} className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
                 </div>
 
                 <div>
                     <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Account</button>
                 </div>
                 </form>
-                <p className="mt-10 text-center text-sm text-gray-500">
+                <p href="/" className="mt-10 text-center text-sm text-gray-500">
                 Already have Account? 
                 <a 
-                href="#" className="font-semibold leading-6 text-green-600 hover:text-indigo-500"><Link>Login</Link></a>
+                href="#" className="font-semibold leading-6 text-green-600 hover:text-indigo-500"><Link as={Link} to="/login"> Login</Link></a>
                 </p>
             </div>
         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import Swal2 from 'sweetalert2'
-import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 
 import osparlogo from '../assets/ospar1logo.png'
@@ -23,55 +23,89 @@ const Login = () => {
     }, [api_userName, api_userPass])
 
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    
+    //     try {
+    //         const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
+    
+    //         if (!response.data) {
+    //             showSwal('Login unsuccessful!', 'error');
+    //         } else {
+    //             showSwal('Login Successful!', 'success');
+    //             console.log(response.data)
+    //             navigate('/dashboard');
+    //         }
+    //     } catch (error) {
+    //         if (error.response) {
+    //             console.error('Error response:', error.response);
+    //             showSwal('Login unsuccessful!', 'error');
+    //         } else if (error.request) {
+    //             console.error('Error request:', error.request);
+    //             showSwal('Login unsuccessful!', 'error');
+    //         } else {
+    //             console.error('Error message:', error.message);
+    //             showSwal('Login unsuccessful!', 'error');
+    //         }
+    //     }
+    //     setUsername('');
+    //     setPassword('');
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try {
+          const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
+          localStorage.setItem('token', response.data.token);
+        //   history.push('/dashboard');
+        } catch (error) {
+        //   console.error('Error logging in', error);
+        }
+      };
 
-        axios.post('http://localhost:8081/users/login', {api_userName, api_userPass})
-            .then(data => {
-                if(!data) {
-                    // let timerInterval
-                    // Swal2.fire({
-                    //     title: 'Login Successful!',
-                    //     icon: 'success',
-                    //     html: 'I will close in <b></b> milliseconds.',
-                    //     timer: 3000,
-                    //     timerProgressBar: true,
-                    //     didOpen: () => {
-                    //         Swal2.showLoading()
-                    //         const b = Swal2.getHtmlContainer().querySelector('b')
-                    //         timerInterval = setInterval(() => {
-                    //         b.textContent = Swal2.getTimerLeft()
-                    //         }, 100)
-                    //     },
-                    //     willClose: () => {
-                    //         clearInterval(timerInterval)
-                    //     }
-                    // })
-                    let timerInterval
-					Swal2.fire({
-						title: 'Login unsuccessful!',
-						icon: 'error',
-                        html: 'Please try again in <b></b> milliseconds.',
-                        timer: 2500,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                        Swal2.showLoading()
-                        const b = Swal2.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                            b.textContent = Swal2.getTimerLeft()
-                        }, 100)
-                        },
-                        willClose: () => {
-                        clearInterval(timerInterval)
-                        }
-						})
 
-                // navigate('/dashboard');
+    const showSwal = (title, icon) => {
+        let timerInterval;
+        Swal.fire({
+            title: title,
+            icon: icon,
+            html: 'I will close in <b></b> milliseconds.',
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: () => {
+                Swal.showLoading();
+                const b = Swal.getHtmlContainer().querySelector('b');
+                timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft();
+                }, 100);
+            },
+            willClose: () => {
+                clearInterval(timerInterval);
+            }
+        });
+    };
 
-                } else {
-                    // alert('Success!');  
-                    // navigate('/dashboard');
-                    console.log(data);
+
+    function forgetPass (e) {
+        e.preventDefault();
+    
+        // alert('Wag makulit!');
+        let timerInterval
+            Swal.fire({
+                title: 'BOBO MO!',
+                icon: 'error',
+                html: 'I will close in <b></b> milliseconds.',
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft()
+                }, 100)
+                },
+                willClose: () => {
+                clearInterval(timerInterval)
                 }
             })
     }
@@ -124,7 +158,7 @@ const Login = () => {
                 </div>
                 {/* {errorMessage && <p>{errorMessage}</p>} */}
                 <div className="text-sm">
-                        <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
+                        <a href="#" onClick={forgetPass} className="font-semibold text-indigo-600 hover:text-indigo-500">Forgot password?</a>
                 </div>
                 <div>
                     <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" disabled={isDisabled}>Login</button>
@@ -133,8 +167,8 @@ const Login = () => {
                 <p className="mt-10 text-center text-sm text-gray-500">
                 No ihomis Account? 
                 <a 
-                href="#" className="font-semibold leading-6 text-green-600 hover:text-indigo-500"> Create Account</a>
-                </p>
+                className="font-semibold leading-6 text-green-600 hover:text-indigo-500"><Link as={Link} to="/register"> Create Account</Link></a>
+               </p>
             </div>
         </div>
     </div>

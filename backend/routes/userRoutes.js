@@ -85,25 +85,49 @@ router.get('/getuser', async (req, res) => {
 
 
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { api_userName, api_userPass } = req.body;
 
 // if (!api_userName) {
 //         return res.status(400).send('Username and password are required.');
 //     }
 
-    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
+    // const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
+    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
 
-    db.query(sql, [api_userName, api_userPass], (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: 'Database login error' });
-        } 
-        if (results.length > 0){
-            return res.status(200).send('Successfully login');
-        }
-        else {
-             res.status(404).send('No record found.');
-        }
+    // const isPasswordValid = await bcrypt.compare(password, user.password);
+    // const isPasswordValid = await (api_userName, user.api_userPass);
+    // if (!isPasswordValid) return res.sendStatus(401);  
+    
+    // const token = jwt.sign({ userId: user._id }, 'SECRET_KEY', { expiresIn: '1h' });
+    // res.json({ token });
+
+    db.query(sql, [api_userName], async (error, results) => {
+        // if (error) {
+        //     return res.status(500).json({ error: 'Database login error' });
+        // } 
+        // if (results.length > 0){
+        //     // return res.send(results);
+        //     return res.status(200).json({ success: 'Database login success' });
+        //     // return res.status(200).send(results);
+        //     // return console.log('Success');
+        // }
+        // else {
+        //     //  res.send('No record found.');
+        //     return res.status(404).json({ error: 'Database login error' });
+        //     // return console.log('Error');
+        // }
+
+        if (error) return res.status(500).json({ error: err });
+        if (results.length === 0) return res.sendStatus(401);
+    
+        const user = results[0];
+        const isPasswordValid = await bcrypt.compare(api_userPass, user.api_userPass);
+        if (!isPasswordValid) return res.sendStatus(401);
+
+        const token = jwt.sign({ userId: user.id }, 'SECRET_KEY', { expiresIn: '1h' });
+        res.json({ token });
+
     })
 
 
