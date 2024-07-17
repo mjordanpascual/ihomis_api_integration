@@ -23,44 +23,33 @@ const Login = () => {
     }, [api_userName, api_userPass])
 
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    
-    //     try {
-    //         const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
-    
-    //         if (!response.data) {
-    //             showSwal('Login unsuccessful!', 'error');
-    //         } else {
-    //             showSwal('Login Successful!', 'success');
-    //             console.log(response.data)
-    //             navigate('/dashboard');
-    //         }
-    //     } catch (error) {
-    //         if (error.response) {
-    //             console.error('Error response:', error.response);
-    //             showSwal('Login unsuccessful!', 'error');
-    //         } else if (error.request) {
-    //             console.error('Error request:', error.request);
-    //             showSwal('Login unsuccessful!', 'error');
-    //         } else {
-    //             console.error('Error message:', error.message);
-    //             showSwal('Login unsuccessful!', 'error');
-    //         }
-    //     }
-    //     setUsername('');
-    //     setPassword('');
-    // };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
           const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
-          localStorage.setItem('token', response.data.token);
-        //   history.push('/dashboard');
+          if (!response.data) {
+                showSwal('Login unsuccessful!', 'error');
+            } else {
+                showSwal('Login Successful!', 'success');
+                console.log(response.data)
+                setTimeout(() => {
+                    navigate('/dashboard');
+                  }, 2000);
+            }
         } catch (error) {
-        //   console.error('Error logging in', error);
+            if (error.response) {
+                console.error('Error response:', error.response);
+                showSwal('Login unsuccessful!', 'error');
+            } else if (error.request) {
+                console.error('Error request:', error.request);
+                showSwal('Login unsuccessful!', 'error');
+            } else {
+                console.error('Error message:', error.message);
+                showSwal('Login unsuccessful!', 'error');
+            }
         }
+        setUsername('');
+        setPassword('');
       };
 
 
@@ -164,11 +153,11 @@ const Login = () => {
                     <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" disabled={isDisabled}>Login</button>
                 </div>
                 </form>
-                <p className="mt-10 text-center text-sm text-gray-500">
-                No ihomis Account? 
-                <a 
-                className="font-semibold leading-6 text-green-600 hover:text-indigo-500"><Link as={Link} to="/register"> Create Account</Link></a>
-               </p>
+                
+                <div className="mt-2 text-center text-sm text-gray-500">
+                No ihomis Account?  
+                    <Link className='font-semibold leading-6 text-green-600 hover:text-indigo-500' as={Link} to="/register"> Create Account</Link>
+               </div>
             </div>
         </div>
     </div>

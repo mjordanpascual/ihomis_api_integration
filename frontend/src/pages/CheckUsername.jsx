@@ -31,7 +31,7 @@ const CheckUsername = () => {
 
             try {
               const response = await axios.post('http://localhost:8081/users/checkuser', { api_userName });
-              if (response.data.exists) {
+              if (response > 0) {
                 setMessage('Username is taken');
               } else {
                 setMessage('Username is available');

@@ -33,171 +33,184 @@ const Register = () => {
         }
     }, [api_userPass1, api_userPass2])
 
-    function handleSubmit(e) {
-		e.preventDefault();
 
 
-		fetch('http://localhost:8081/users/checkuser', {
-			method : 'POST',
-			headers : {
-				'Content-Type' : 'application/json'			},
-			body : JSON.stringify({
-				api_userName : api_userName,
-			})
-		})
-		.then(response => response.json())
-		.then(data => {
-			if(data){
-			let timerInterval
-			Swal2.fire({
-				title: 'Email already exist! Please try again!',
-				icon: 'error',
-				text: 'Check your email address and try again',
-                html: 'I will close in <b></b> milliseconds.',
-                timer: 1000,
-                timerProgressBar: true,
-                didOpen: () => {
-                Swal2.showLoading()
-                const b = Swal2.getHtmlContainer().querySelector('b')
-                timerInterval = setInterval(() => {
-                    b.textContent = Swal2.getTimerLeft()
-                }, 100)
-                },
-                willClose: () => {
-                clearInterval(timerInterval)
-                }
-				})	
-			} else {
-
-			fetch('http://localhost:8081/users/register', {
-				method : 'POST',
-				headers : {
-					'Content-Type' : 'application/json'},
-				body : JSON.stringify({
-					api_userName : api_userName,
-                    api_userPass : api_userPass1
-				})
-			})
-			// .then(response => response.json())
-			.then(data => {
-				if(data){
-					let timerInterval
-					Swal2.fire({
-						title: 'Registration Successful!',
-						icon: 'success',
-						html: 'I will close in <b></b> milliseconds.',
-						timer: 1000,
-						timerProgressBar: true,
-						didOpen: () => {
-							Swal2.showLoading()
-							const b = Swal2.getHtmlContainer().querySelector('b')
-							timerInterval = setInterval(() => {
-							b.textContent = Swal2.getTimerLeft()
-							}, 100)
-						},
-						willClose: () => {
-							clearInterval(timerInterval)
-						}
-						})
-
-				navigate('/login');
-
-			} else{
-				let timerInterval
-				Swal2.fire({
-					title: 'Registration unsuccessful!',
-					icon: 'error',
-                    html: 'I will close in <b></b> milliseconds.',
-                    timer: 1000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                    Swal2.showLoading()
-                    const b = Swal2.getHtmlContainer().querySelector('b')
-                    timerInterval = setInterval(() => {
-                        b.textContent = Swal2.getTimerLeft()
-                    }, 100)
-                    },
-                    willClose: () => {
-                    clearInterval(timerInterval)
-                    }
-					})
-			}
-		})
-	}
-            setUsername('');
-            setPassword1('');
-            setPassword2('');
-        })
-	}
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8081/users/register', { api_userName, api_userPass1 });
+            alert(response.data.message);
+        } catch (error) {
+            alert(error.response.data.message);
+        }
+    };
 
 
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
 
-    //     axios.post('http://localhost:8081/users/register', {api_userName, api_userPass1})
-    //     // .then(res => console.log("Registered Successfully!"))
-    //     .then(res => {
-    //         if(res){
-    //             return res.status(200).send("Registered Successfully!")
-    //         } else {
-    //             res.status(404).send("ERROR")
-    //         }
+    // function handleSubmit(e) {
+	// 	e.preventDefault();
+
+
+	// 	fetch('http://localhost:8081/users/checkuser', {
+	// 		method : 'POST',
+	// 		headers : {'Content-Type' : 'application/json'},
+	// 		body : JSON.stringify({
+	// 			api_userName : api_userName,
+	// 		})
+	// 	})
+	// 	.then(response => response.json())
+	// 	.then(data => {
+	// 		if(data){
+	// 		let timerInterval
+	// 		Swal2.fire({
+	// 			title: 'Email already exist! Please try again!',
+	// 			icon: 'error',
+	// 			text: 'Check your email address and try again',
+    //             html: 'I will close in <b></b> milliseconds.',
+    //             timer: 1000,
+    //             timerProgressBar: true,
+    //             didOpen: () => {
+    //             Swal2.showLoading()
+    //             const b = Swal2.getHtmlContainer().querySelector('b')
+    //             timerInterval = setInterval(() => {
+    //                 b.textContent = Swal2.getTimerLeft()
+    //             }, 100)
+    //             },
+    //             willClose: () => {
+    //             clearInterval(timerInterval)
+    //             }
+	// 			})	
+	// 		} else {
+
+	// 		fetch('http://localhost:8081/users/register', {
+	// 			method : 'POST',
+	// 			headers : {
+	// 				'Content-Type' : 'application/json'},
+	// 			body : JSON.stringify({
+	// 				api_userName : api_userName,
+    //                 api_userPass : api_userPass1
+	// 			})
+	// 		})
+	// 		// .then(response => response.json())
+	// 		.then(data => {
+	// 			if(data){
+	// 				let timerInterval
+	// 				Swal2.fire({
+	// 					title: 'Registration Successful!',
+	// 					icon: 'success',
+	// 					html: 'I will close in <b></b> milliseconds.',
+	// 					timer: 1000,
+	// 					timerProgressBar: true,
+	// 					didOpen: () => {
+	// 						Swal2.showLoading()
+	// 						const b = Swal2.getHtmlContainer().querySelector('b')
+	// 						timerInterval = setInterval(() => {
+	// 						b.textContent = Swal2.getTimerLeft()
+	// 						}, 100)
+	// 					},
+	// 					willClose: () => {
+	// 						clearInterval(timerInterval)
+	// 					}
+	// 					})
+
+	// 			navigate('/login');
+
+	// 		} else{
+	// 			let timerInterval
+	// 			Swal2.fire({
+	// 				title: 'Registration unsuccessful!',
+	// 				icon: 'error',
+    //                 html: 'I will close in <b></b> milliseconds.',
+    //                 timer: 1000,
+    //                 timerProgressBar: true,
+    //                 didOpen: () => {
+    //                 Swal2.showLoading()
+    //                 const b = Swal2.getHtmlContainer().querySelector('b')
+    //                 timerInterval = setInterval(() => {
+    //                     b.textContent = Swal2.getTimerLeft()
+    //                 }, 100)
+    //                 },
+    //                 willClose: () => {
+    //                 clearInterval(timerInterval)
+    //                 }
+	// 				})
+	// 		}
+	// 	})
+	// }
+    //         setUsername('');
+    //         setPassword1('');
+    //         setPassword2('');
     //     })
-    //     .catch(err => alert(err))
-    // }
-   
+	// }
 
-// const handleSubmit = async (e) => {
-//     e.preventDefault();
 
-//     try {
-//       const response = await axios.post('http://localhost:8081/users/register', { api_userName, api_userPass1, api_userPass2 });
-//         if(response){
-//             let timerInterval
-//             Swal2.fire({
-//                 title: 'Registration Successful!',
-//                 icon: 'success',
-//                 html: 'I will close in <b></b> milliseconds.',
-//                 timer: 1500,
-//                 timerProgressBar: true,
-//                 didOpen: () => {
-//                 Swal2.showLoading()
-//                 const b = Swal2.getHtmlContainer().querySelector('b')
-//                 timerInterval = setInterval(() => {
-//                     b.textContent = Swal2.getTimerLeft()
-//                 }, 100)
-//                 },
-//                 willClose: () => {
-//                 clearInterval(timerInterval)
-//                 }
-//             })
-//             navigate('/');
-//         }
-//     } catch (error) {
-//         alert('Error message');
-//     // let timerInterval
-//     //     Swal2.fire({
-//     //         title: 'Registration unsuccessful!',
-//     //         icon: 'error',
-//     //         html: 'I will close in <b></b> milliseconds.',
-//     //         timer: 1500,
-//     //         timerProgressBar: true,
-//     //         didOpen: () => {
-//     //         Swal2.showLoading()
-//     //         const b = Swal2.getHtmlContainer().querySelector('b')
-//     //         timerInterval = setInterval(() => {
-//     //             b.textContent = Swal2.getTimerLeft()
-//     //         }, 100)
-//     //         },
-//     //         willClose: () => {
-//     //         clearInterval(timerInterval)
+//     // const handleSubmit = (e) => {
+//     //     e.preventDefault();
+
+//     //     axios.post('http://localhost:8081/users/register', {api_userName, api_userPass1})
+//     //     // .then(res => console.log("Registered Successfully!"))
+//     //     .then(res => {
+//     //         if(res){
+//     //             return res.status(200).send("Registered Successfully!")
+//     //         } else {
+//     //             res.status(404).send("ERROR")
 //     //         }
 //     //     })
-//     }
-//     // setUsername('');
-//     // setPassword1('');
-//     // setPassword2('');
-// };
+//     //     .catch(err => alert(err))
+//     // }
+   
+
+// // const handleSubmit = async (e) => {
+// //     e.preventDefault();
+
+// //     try {
+// //       const response = await axios.post('http://localhost:8081/users/register', { api_userName, api_userPass1, api_userPass2 });
+// //         if(response){
+// //             let timerInterval
+// //             Swal2.fire({
+// //                 title: 'Registration Successful!',
+// //                 icon: 'success',
+// //                 html: 'I will close in <b></b> milliseconds.',
+// //                 timer: 1500,
+// //                 timerProgressBar: true,
+// //                 didOpen: () => {
+// //                 Swal2.showLoading()
+// //                 const b = Swal2.getHtmlContainer().querySelector('b')
+// //                 timerInterval = setInterval(() => {
+// //                     b.textContent = Swal2.getTimerLeft()
+// //                 }, 100)
+// //                 },
+// //                 willClose: () => {
+// //                 clearInterval(timerInterval)
+// //                 }
+// //             })
+// //             navigate('/');
+// //         }
+// //     } catch (error) {
+// //         alert('Error message');
+// //     // let timerInterval
+// //     //     Swal2.fire({
+// //     //         title: 'Registration unsuccessful!',
+// //     //         icon: 'error',
+// //     //         html: 'I will close in <b></b> milliseconds.',
+// //     //         timer: 1500,
+// //     //         timerProgressBar: true,
+// //     //         didOpen: () => {
+// //     //         Swal2.showLoading()
+// //     //         const b = Swal2.getHtmlContainer().querySelector('b')
+// //     //         timerInterval = setInterval(() => {
+// //     //             b.textContent = Swal2.getTimerLeft()
+// //     //         }, 100)
+// //     //         },
+// //     //         willClose: () => {
+// //     //         clearInterval(timerInterval)
+// //     //         }
+// //     //     })
+// //     }
+// //     // setUsername('');
+// //     // setPassword1('');
+// //     // setPassword2('');
+// // };
 
 
 function forgetPass (e) {
@@ -302,11 +315,12 @@ function forgetPass (e) {
                     <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create Account</button>
                 </div>
                 </form>
-                <p href="/" className="mt-10 text-center text-sm text-gray-500">
-                Already have Account? 
-                <a 
-                href="#" className="font-semibold leading-6 text-green-600 hover:text-indigo-500"><Link as={Link} to="/login"> Login</Link></a>
-                </p>
+
+                <div className="mt-2 text-center text-sm text-gray-500">
+                Already have Account?
+                    <Link className='font-semibold leading-6 text-green-600 hover:text-indigo-500' as={Link} to="/login"> Login</Link>
+               </div>
+
             </div>
         </div>
     </div>

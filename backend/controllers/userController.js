@@ -1,8 +1,127 @@
 // const db = require('../server')
-const db = require('../connection');
+// const db = require('../connection');
+const User = require('../models/user');
+const bcrypt = require("bcrypt");
 
 
 
+const userController = {
+    register: async (req, res) => {
+        const {api_userName, api_userPass} = req.body;
+        const hashedPassword = await bcrypt.hash(api_userName, 10);
+        try {
+            const user = await User.create(api_userName, hashedPassword);
+            res.status(201).json({ message: 'User created successfully' });
+        } catch (error) {
+            // res.status(500).json({ error: error.message });
+            res.status(500).json({ error: error.message });
+        }
+    },
+    login: async (req, res) => {
+        const { api_userName, api_userPass } = req.body;
+        try {
+            const user = await User.findByUsername(api_userName);
+            if(user && await bcrypt.compare(api_userPass, user.api_userPass)) {
+                res.status(200).json({ message: 'Login successful' });
+            } else {
+                res.status(401).json({ message: 'Invalid credentials' });
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+};
+
+
+module.exports = userController;
+
+
+
+// module.exports.registerUser = (req, res) => {
+//     // const { api_userName, api_userPass } = req.body;
+//     const api_userName = req.body;
+//     const api_userPass = req.body;
+
+//     User.findByEmail(api_userName, async (err, user) => {
+//         if (err) {
+//             return res.status(500).json({ message: err.message });
+//         }
+//         if (user) {
+//             return res.status(400).json({ message: 'User already exists' });
+//         }
+
+//         const api_userPass = await bcrypt.hash(api_userPass, 10);
+
+//         User.create(api_userName, api_userPass, (err, results) => {
+//             if (err) {
+//                 return res.status(500).json({ message: err.message });
+//             }
+//             res.status(201).json({ message: 'User registered successfully' });
+//         });
+//     });
+// };
+
+
+
+
+// module.exports.registerUser = async (reqBody) => {
+
+//     const { api_userName, api_userPass } = reqBody;
+
+//     if (!api_userName || !api_userPass) {
+//         // return res.status(400).json({ message: 'Username and password are required' });
+//         return { status: 400, message: 'Username and password are required' };
+//     }
+
+//     try {
+//         // Hash the password
+//         const hashedPassword = await bcrypt.hash(api_userPass, 10);
+//         // Store the new user with the hashed password
+//         // const checkUsernameExist = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
+
+//         // Check if username already exists
+//         const checkUsernameExist = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
+//         const [results] = await db.query(checkUsernameExist, [api_userName]);
+
+//         if (results.length > 0) {
+//             return { status: 400, message: 'Username already exists' };
+//         }
+
+//         // Store the new user with the hashed password
+//         const sql = `INSERT INTO api_user_acc (api_userName, api_userPass) VALUES (?, ?)`;
+//         db.query(sql, [api_userName, hashedPassword]);
+        
+//         return { status: 200, message: 'User Registered' };
+
+//         // db.query(checkUsernameExist, [api_userName], (error, results) => {
+//         //     if(error) throw error;
+//         //     if(results.length > 0) {
+//         //         // return res.status(400).send('Error inserting username into database: ');
+//         //         // console.log(results)
+//         //         // return ('Error inserting username into database:  ');
+//         //         return error;
+//         //     } else {
+//         //         const sql = `INSERT INTO api_user_acc (api_userName, api_userPass) VALUES (?, ?)`;
+//         //         db.query(sql, [api_userName, api_userPass], (error, results) => {
+//         //             // if(error) throw error;
+//         //             if(error) {
+//         //                 // return ('Error inserting data!')   
+//         //                 return error
+//         //             }
+//         //             // return res.status(200).send('User Registered')
+//         //             // return ('User Registered');
+//         //             return results;
+//         //         })
+//         //     }
+//         // })
+//         } catch (error) {
+//             return { status: 500, message: 'Database error', error: error.message };
+
+//             // return res.status(500).json({ message: 'Database error', error: error.message });
+//             // console.log(error)
+//             // return false;
+//     }
+// }
 
 
 // module.exports.checkUser = (reqBody) => {

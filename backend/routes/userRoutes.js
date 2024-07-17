@@ -1,134 +1,128 @@
 const express = require('express')
-// const userController = require("../controllers/userController")
+const userController = require('../controllers/userController')
 const router = express.Router()
 const db = require('../connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const auth = require('../auth');
 
 
-const authenticate = (req, res, next) => {
-    const token = req.headers['authorization'];
-    if (!token) {
-        return res.status(401).send('Access denied. No token provided.');
-    }
-
-    try {
-        const decoded = jwt.verify(token, 'your_jwt_secret');
-        req.user = decoded;
-        next();
-    } catch (ex) {
-        res.status(400).send('Invalid token.');
-    }
-};
+router.post('/register', userController.register);
+router.post('/login', userController.login);
 
 
-router.post('/checkuser', async (req, res) => {
-    const {api_userName} = req.body
-    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
+// router.post('/checkuser', async (req, res) => {
+//     const {api_userName} = req.body
+//     const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
 
-    db.query(sql, api_userName, (error, results) => {
-        // if (error) {
-        //     return res.status(500).json({ error: 'Database query error' });
-        // }
-        if (results.length > 0) {
-            // return res.status(200).json({ userExists: true });
-            return res.send(results);
-        } else {
-            // return res.status(404).json({ userExists: false });
-            return res.send(false);
-        }
+//     db.query(sql, api_userName, (error, results) => {
+//         // if (error) {
+//         //     return res.status(500).json({ error: 'Database query error' });
+//         // }
+//         if (results.length > 0) {
+//             return res.status(200).json({ userExists: true });
+//             // return res.send(results);
+//         } else {
+//             return res.status(404).json({ userExists: false });
+//             // return res.send(false);
+//         }
 
-    })
-})
-
-
-
-router.post('/register', async (req, res) => {
-    const { api_userName, api_userPass } = req.body;
-
-    if (!api_userName || !api_userPass) {
-        return res.status(400).json({ message: 'Username and password are required' });
-    }
-
-    try {
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(api_userPass, 10);
-        // Store the new user with the hashed password
-        const checkUsernameExist = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
-
-        db.query(checkUsernameExist, [api_userName], (error, results) => {
-            if(error) throw error;
-            if(results.length > 0) {
-                return res.status(400).send('Error inserting username into database: ');
-            } else {
-                const sql = `INSERT INTO api_user_acc (api_userName, api_userPass) VALUES (?, ?)`;
-                db.query(sql, [api_userName, api_userPass], (error, results) => {
-                    if(error) throw error;
-                    return res.status(200).send('User Registered')
-                })
-            }
-        })
-        } catch (error) {
-            res.status(500).json({ message: 'Database error', error: error.message });
-    }
-});
+//     })
+// })
 
 
-
-router.get('/getuser', async (req, res) => {
-    const sql = `SELECT * FROM api_user_acc`;
-    db.query(sql, (error, results) => {
-        if(error) return res.json(error);
-        return res.json(results);
-    }) 
-})
+// router.post('/register', async (req, res) => {
+//     userController.registerUser(req.body)
+//     .then(resultFromController => res.send(resultFromController));
+// });
 
 
+// router.post('/register', async (req, res) => {
+//     const { api_userName, api_userPass } = req.body;
 
-router.post('/login', async (req, res) => {
-    const { api_userName, api_userPass } = req.body;
-
-// if (!api_userName) {
-//         return res.status(400).send('Username and password are required.');
+//     if (!api_userName || !api_userPass) {
+//         return res.status(400).json({ message: 'Username and password are required' });
 //     }
 
-    // const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
-    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
+//     try {
+//         // Hash the password
+//         const hashedPassword = await bcrypt.hash(api_userPass, 10);
+//         // Store the new user with the hashed password
+//         const checkUsernameExist = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
 
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
-    // const isPasswordValid = await (api_userName, user.api_userPass);
-    // if (!isPasswordValid) return res.sendStatus(401);  
+//         db.query(checkUsernameExist, [api_userName], (error, results) => {
+//             if(error) throw error;
+//             if(results.length > 0) {
+//                 return res.status(400).send('Error inserting username into database: ');
+//             } else {
+//                 const sql = `INSERT INTO api_user_acc (api_userName, api_userPass) VALUES (?, ?)`;
+//                 db.query(sql, [api_userName, api_userPass], (error, results) => {
+//                     if(error) throw error;
+//                     return res.status(200).send('User Registered')
+//                 })
+//             }
+//         })
+//         } catch (error) {
+//             res.status(500).json({ message: 'Database error', error: error.message });
+//     }
+// });
+
+
+
+// router.get('/getuser', async (req, res) => {
+//     const sql = `SELECT * FROM api_user_acc`;
+//     db.query(sql, (error, results) => {
+//         if(error) return res.json(error);
+//         return res.json(results);
+//     }) 
+// })
+
+
+
+// router.post('/login', async (req, res) => {
+//     const { api_userName, api_userPass } = req.body;
+
+// // if (!api_userName) {
+// //         return res.status(400).send('Username and password are required.');
+// //     }
+
+//     // const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
+//     const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
+
+//     // const isPasswordValid = await bcrypt.compare(password, user.password);
+//     // const isPasswordValid = await (api_userName, user.api_userPass);
+//     // if (!isPasswordValid) return res.sendStatus(401);  
     
-    // const token = jwt.sign({ userId: user._id }, 'SECRET_KEY', { expiresIn: '1h' });
-    // res.json({ token });
+//     // const token = jwt.sign({ userId: user._id }, 'SECRET_KEY', { expiresIn: '1h' });
+//     // res.json({ token });
 
-    db.query(sql, [api_userName], async (error, results) => {
-        // if (error) {
-        //     return res.status(500).json({ error: 'Database login error' });
-        // } 
-        // if (results.length > 0){
-        //     // return res.send(results);
-        //     return res.status(200).json({ success: 'Database login success' });
-        //     // return res.status(200).send(results);
-        //     // return console.log('Success');
-        // }
-        // else {
-        //     //  res.send('No record found.');
-        //     return res.status(404).json({ error: 'Database login error' });
-        //     // return console.log('Error');
-        // }
+//     db.query(sql, [api_userName], async (error, results) => {
+//         // if (error) {
+//         //     return res.status(500).json({ error: 'Database login error' });
+//         // } 
+//         // if (results.length > 0){
+//         //     // return res.send(results);
+//         //     return res.status(200).json({ success: 'Database login success' });
+//         //     // return res.status(200).send(results);
+//         //     // return console.log('Success');
+//         // }
+//         // else {
+//         //     //  res.send('No record found.');
+//         //     return res.status(404).json({ error: 'Database login error' });
+//         //     // return console.log('Error');
+//         // }
 
-        if (error) return res.status(500).json({ error: err });
-        if (results.length === 0) return res.sendStatus(401);
+//         if (error) return res.status(500).json({ error: error });
+//         if (results.length === 0) return res.sendStatus(401);
     
-        const user = results[0];
-        const isPasswordValid = await bcrypt.compare(api_userPass, user.api_userPass);
-        if (!isPasswordValid) return res.sendStatus(401);
+//         const user = results[0];
+//         const isPasswordValid = await bcrypt.compare(api_userPass, user.api_userPass);
+//         if (!isPasswordValid) return res.sendStatus(401);
 
-        const token = jwt.sign({ userId: user.id }, 'SECRET_KEY', { expiresIn: '1h' });
-        res.json({ token });
+//         const token = jwt.sign({ userId: user.id }, 'SECRET_KEY', { expiresIn: '1h' });
+//         res.json({ token });
 
-    })
+//     })
 
 
 
@@ -160,9 +154,6 @@ router.post('/login', async (req, res) => {
     //     }
         
     // });
-});
-
-
 
 
 // router.get('/getuser', async (req, res) => {
