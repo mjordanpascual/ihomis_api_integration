@@ -1,19 +1,25 @@
 // const db = require('../server')
 // const db = require('../connection');
+const { existsSync } = require('fs');
 const User = require('../models/user');
 const bcrypt = require("bcrypt");
+const { escape } = require('../connection');
 
 
 
 const userController = {
     register: async (req, res) => {
         const {api_userName, api_userPass} = req.body;
-        const hashedPassword = await bcrypt.hash(api_userName, 10);
+        const hashedPassword = await bcrypt.hash(api_userPass, 10);
+        
         try {
+            const userExists = await User.findByUsername(api_userName);
+            if(userExists) {
+                return res.status(400).json({ message: 'Username already exists' });
+            }
             const user = await User.create(api_userName, hashedPassword);
             res.status(201).json({ message: 'User created successfully' });
         } catch (error) {
-            // res.status(500).json({ error: error.message });
             res.status(500).json({ error: error.message });
         }
     },
