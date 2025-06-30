@@ -75,7 +75,7 @@ router.get('/getuser', async (req, res) => {
 
 
 
-router.post('/login', async (req, res)) => {
+router.post('/login', async (req, res) => {
 
     // Authenticate user from database
     const { api_userName, api_userPass } = req.body;
@@ -420,5 +420,5 @@ router.post('/login', async (req, res)) => {
 //         }
 //     });
 // });
-}
-module.exports = userRoute;
+})
+module.exports = userRoutes;
