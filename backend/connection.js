@@ -1,23 +1,23 @@
 const mysql = require('mysql');
 //const mysql = require('mysql2/promise');
+//const mysql = require('mysql2');
 
 
-
-// const db = mysql.createConnection({
-//     host: "192.168.5.1",
-//     user: 'root',
-//     password: 'R00t',
-//     port: '3307',
-//     database: 'hospital_dbo'
-// })
-
-const db = mysql.createPool({
-    host: '192.168.5.1',
+const db = mysql.createConnection({
+    host: "192.168.5.1",
     user: 'root',
     password: 'R00t',
     port: '3307',
     database: 'hospital_dbo'
-});
+})
+
+// const db = mysql.createPool({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     port: '3307',
+//     database: 'hospital_dbo'
+// });
 
 
 // db.connect((err) => {

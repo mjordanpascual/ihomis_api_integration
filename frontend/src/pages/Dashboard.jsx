@@ -1,7 +1,12 @@
 import Sidebar from './Sidebar'
 // import { useHistory } from 'react-router-dom';
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 
 const Dashboard = () => {
+
+  const navigate = useNavigate();
 
   // const history = useHistory();
 
@@ -9,6 +14,11 @@ const Dashboard = () => {
   //   localStorage.removeItem('token');
   //   history.push('/login');
   // };
+
+  useEffect(()=>{
+    console.log('Authenticated. OK');
+    // navigate('/');
+  }, [])
 
   return (
     <div>
