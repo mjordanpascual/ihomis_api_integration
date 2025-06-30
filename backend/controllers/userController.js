@@ -6,7 +6,6 @@ const bcrypt = require("bcrypt");
 const { escape } = require('../connection');
 
 
-
 const userController = {
     register: async (req, res) => {
         const {api_userName, api_userPass} = req.body;

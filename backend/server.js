@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
 const jwt = require('jsonwebtoken');
+const db = require('./connection');
 
 const app = express();
 
@@ -15,15 +16,15 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.get('/', (req, res) => {
-//   const sql = `SELECT count(*) AS 'Total' FROM hperson`;
+app.get('/', (req, res) => {
+  const sql = `SELECT count(*) AS 'Total' FROM hperson`;
 
-//   db.query(sql, (err, data) => {
-//       if(err) return res.json(err);
-//       return res.json(data);
-//       // return res.send(data);
-//   })
-// })
+  db.query(sql, (err, data) => {
+      if(err) return res.json(err);
+      return res.json(data);
+      // return res.send(data);
+  })
+})
 
 // Routers
 // const userRouter = require("./routes/userRoutes");
