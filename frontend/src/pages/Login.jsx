@@ -27,14 +27,25 @@ const Login = () => {
         e.preventDefault();
     
         try {
+<<<<<<< HEAD
             const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
     
             if (!response.data) {
+=======
+          const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
+          if (!response.data) {
+>>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
                 showSwal('Login unsuccessful!', 'error');
             } else {
                 showSwal('Login Successful!', 'success');
                 console.log(response.data)
+<<<<<<< HEAD
                 navigate('/dashboard');
+=======
+                setTimeout(() => {
+                    navigate('/dashboard');
+                  }, 2000);
+>>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
             }
         } catch (error) {
             if (error.response) {
@@ -50,6 +61,7 @@ const Login = () => {
         }
         setUsername('');
         setPassword('');
+<<<<<<< HEAD
     };
 
     // const handleSubmit = async (e) => {
@@ -68,6 +80,9 @@ const Login = () => {
     //         console.error('Login failed:', error.response.data);
     //     }
     //   };
+=======
+      };
+>>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
 
 
     const showSwal = (title, icon) => {
@@ -170,11 +185,11 @@ const Login = () => {
                     <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" disabled={isDisabled}>Login</button>
                 </div>
                 </form>
-                <p className="mt-10 text-center text-sm text-gray-500">
-                No ihomis Account? 
-                <a 
-                className="font-semibold leading-6 text-green-600 hover:text-indigo-500"><Link as={Link} to="/register"> Create Account</Link></a>
-               </p>
+                
+                <div className="mt-2 text-center text-sm text-gray-500">
+                No ihomis Account?  
+                    <Link className='font-semibold leading-6 text-green-600 hover:text-indigo-500' as={Link} to="/register"> Create Account</Link>
+               </div>
             </div>
         </div>
     </div>
