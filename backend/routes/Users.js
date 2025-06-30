@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const app = express();
-
+const db = require('../connection');
 
 // router.get('/', (req, res) => {
 //     return res.json("Data from BackEnd!");
@@ -20,7 +20,7 @@ const app = express();
 
 
 
-router.get('/', (req, res) => {
+app.get('/', (req, res) => {
     const sql = `SELECT count(*) AS 'Total' FROM hperson`;
 
     db.query(sql, (err, data) => {
@@ -31,13 +31,13 @@ router.get('/', (req, res) => {
 })
 
 
-router.get('/count', (req, res) => {
+app.get('/count', (req, res) => {
     const sql = `SELECT count(*) AS 'Total' FROM hperson`;
 
     db.query(sql, (err, data) => {
         if(err) return res.json(err);
         return res.json(data);
-        // return res.send(data);
+        //return res.send(data);
     })
 })
 

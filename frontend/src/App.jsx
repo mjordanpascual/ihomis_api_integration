@@ -12,6 +12,8 @@ import Register from './pages/Register'
 import NoPageFound from './pages/NoPageFound'
 import CheckUsername from './pages/CheckUsername';
 
+// import ProtectedRoute from './pages/ProtectedRoute';
+
 
 
 
@@ -27,6 +29,8 @@ function App() {
         <Route path="/login" element={ <Login /> } />
         <Route path="/register" element={ <Register /> } />
         <Route path="/checkuser" element={ <CheckUsername /> } />
+
+        {/* <ProtectedRoute path="/protected" component={Dashboard} /> */}
 
         <Route path = '*' element={<NoPageFound />} />
       </Routes>

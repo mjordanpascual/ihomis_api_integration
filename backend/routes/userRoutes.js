@@ -1,25 +1,27 @@
 const express = require('express')
-// const userController = require("../controllers/userController")
+const userController = require("../controllers/userController")
 const router = express.Router()
 const db = require('../connection');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-const authenticate = (req, res, next) => {
-    const token = req.headers['authorization'];
-    if (!token) {
-        return res.status(401).send('Access denied. No token provided.');
-    }
+// const JWT_SECRET = 'JWTSecretKey';
 
-    try {
-        const decoded = jwt.verify(token, 'your_jwt_secret');
-        req.user = decoded;
-        next();
-    } catch (ex) {
-        res.status(400).send('Invalid token.');
-    }
-};
+// const authenticate = (req, res, next) => {
+//     const token = req.headers['authorization'];
+//     if (!token) {
+//         return res.status(401).send('Access denied. No token provided.');
+//     }
+
+//     try {
+//         const decoded = jwt.verify(token, 'your_jwt_secret');
+//         req.user = decoded;
+//         next();
+//     } catch (ex) {
+//         res.status(400).send('Invalid token.');
+//     }
+// };
 
 
 router.post('/checkuser', async (req, res) => {
@@ -85,15 +87,25 @@ router.get('/getuser', async (req, res) => {
 
 
 
+// router.post('/login', (req, res) => {
+//     userController.loginUser(req.body)
+//     .then(resultFromController => res.send(resultFromController));
+// })
+
+
+
 router.post('/login', async (req, res) => {
+
+    // Authenticate user from database
     const { api_userName, api_userPass } = req.body;
 
-// if (!api_userName) {
-//         return res.status(400).send('Username and password are required.');
-//     }
+    // if (!api_userName) {
+    //         return res.status(400).send('Username and password are required.');
+    //     }
 
     // const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
-    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
+    //  SELECT * FROM users WHERE username = ? AND password = ?
+    const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
 
     // const isPasswordValid = await bcrypt.compare(password, user.password);
     // const isPasswordValid = await (api_userName, user.api_userPass);
@@ -102,33 +114,76 @@ router.post('/login', async (req, res) => {
     // const token = jwt.sign({ userId: user._id }, 'SECRET_KEY', { expiresIn: '1h' });
     // res.json({ token });
 
-    db.query(sql, [api_userName], async (error, results) => {
-        // if (error) {
-        //     return res.status(500).json({ error: 'Database login error' });
-        // } 
-        // if (results.length > 0){
-        //     // return res.send(results);
-        //     return res.status(200).json({ success: 'Database login success' });
-        //     // return res.status(200).send(results);
-        //     // return console.log('Success');
-        // }
-        // else {
-        //     //  res.send('No record found.');
-        //     return res.status(404).json({ error: 'Database login error' });
-        //     // return console.log('Error');
-        // }
+    // Check credentials from MySQL
+    db.query(sql, [api_userName, api_userPass], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Database login error' });
+        } 
+        if (results.length > 0){
+            // return res.send(results);
+            return res.status(200).json({ success: 'Database login success' });
+            // return res.status(200).send(results);
+            // return console.log('Success');
+        }
+        else {
+            //  res.send('No record found.');
+            return res.status(404).json({ error: 'Database login error' });
+            // return console.log('Error');
+        }
 
-        if (error) return res.status(500).json({ error: err });
-        if (results.length === 0) return res.sendStatus(401);
+        // if (error) return res.status(500).json({ error: err });
+        // if (results.length === 0) return res.sendStatus(401);
     
-        const user = results[0];
-        const isPasswordValid = await bcrypt.compare(api_userPass, user.api_userPass);
-        if (!isPasswordValid) return res.sendStatus(401);
+        // const user = results[0];
+        // const isPasswordValid = await bcrypt.compare(api_userPass, user.api_userPass);
+        // if (!isPasswordValid) return res.sendStatus(401);
 
-        const token = jwt.sign({ userId: user.id }, 'SECRET_KEY', { expiresIn: '1h' });
-        res.json({ token });
+        // const token = jwt.sign({ userId: user.id }, 'SECRET_KEY', { expiresIn: '1h' });
+        // res.json({ token });
 
-    })
+        // if (err) {
+        //     res.status(500).send('Error authenticating user');
+        //     return;
+        // }
+        // if (results.length > 0) {
+        //     // Generate JWT token
+        //     const token = jwt.sign({ username }, JWT_SECRET);
+        //     res.json({ token });
+        // } else {
+        //     res.status(401).send('Invalid username or password');
+        // }
+
+        // if(error) {
+        //     res.status(500).send('Error authenticating user');
+        //     return;
+        // }
+        // if (results.length > 0) {
+        //     // Generate JWT Token
+        //     const token = jwt.sign({ api_userName }, JWT_SECRET);
+        //     res.json({ token });
+        // } else {
+        //     res.status(401).send('Invalid username and password');
+        // }
+
+    });
+
+    
+
+    // router.post('/protected', (req, res) => {
+    //     // Verify JWT Token
+    //     const token = req.headers['authorization'];
+    //     if(!token) {
+    //         res.status(401).send('Token no provided');
+    //         return;
+    //     }
+    //     jwt.verify(token, JWT_SECRET, (error, decoded) => {
+    //         if(error) {
+    //             res.status(403).send('Invalid token');
+    //             return;
+    //         }
+    //         res.send('You have accessed protected route');
+    //     });
+    // });
 
 
 

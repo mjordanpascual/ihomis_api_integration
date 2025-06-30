@@ -2,7 +2,6 @@
 const mysql = require('mysql2');
 
 
-
 // const db = mysql.createConnection({
 //     host: "192.168.5.1",
 //     user: 'root',
@@ -12,10 +11,10 @@ const mysql = require('mysql2');
 // })
 
 const db = mysql.createPool({
-    host: '192.168.5.1',
+    host: 'localhost',
     user: 'root',
-    password: 'R00t',
-    port: '3307',
+    password: '',
+    port: '3306',
     database: 'hospital_dbo'
 });
 

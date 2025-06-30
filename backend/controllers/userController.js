@@ -4,6 +4,40 @@ const db = require('../connection');
 
 
 
+// module.exports.loginUser = (reqBody) {
+//     const { api_userName, api_userPass } = req.body;
+
+//     if (!api_userName) {
+//         return res.status(400).send('Username and password are required.');
+//     }
+
+//     const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
+
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+
+//     if (!isPasswordValid) return res.sendStatus(401);  
+
+//     // Check credentials from MySQL
+//     db.query(sql, [api_userName, api_userPass], (error, results) => {
+//         if (error) {
+//             return res.status(500).json({ error: 'Database login error' });
+//         } 
+//         if (results.length > 0){
+//             // return res.send(results);
+//             return res.status(200).json({ success: 'Database login success' });
+//             // return res.status(200).send(results);
+//             // return console.log('Success');
+//         }
+//         else {
+//             //  res.send('No record found.');
+//             return res.status(404).json({ error: 'Database login error' });
+//             // return console.log('Error');
+//         }
+//     });
+
+// }
+
+
 
 // module.exports.checkUser = (reqBody) => {
 

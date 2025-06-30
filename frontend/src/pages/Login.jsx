@@ -23,45 +23,51 @@ const Login = () => {
     }, [api_userName, api_userPass])
 
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    
-    //     try {
-    //         const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
-    
-    //         if (!response.data) {
-    //             showSwal('Login unsuccessful!', 'error');
-    //         } else {
-    //             showSwal('Login Successful!', 'success');
-    //             console.log(response.data)
-    //             navigate('/dashboard');
-    //         }
-    //     } catch (error) {
-    //         if (error.response) {
-    //             console.error('Error response:', error.response);
-    //             showSwal('Login unsuccessful!', 'error');
-    //         } else if (error.request) {
-    //             console.error('Error request:', error.request);
-    //             showSwal('Login unsuccessful!', 'error');
-    //         } else {
-    //             console.error('Error message:', error.message);
-    //             showSwal('Login unsuccessful!', 'error');
-    //         }
-    //     }
-    //     setUsername('');
-    //     setPassword('');
-    // };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
+    
         try {
-          const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
-          localStorage.setItem('token', response.data.token);
-        //   history.push('/dashboard');
+            const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
+    
+            if (!response.data) {
+                showSwal('Login unsuccessful!', 'error');
+            } else {
+                showSwal('Login Successful!', 'success');
+                console.log(response.data)
+                navigate('/dashboard');
+            }
         } catch (error) {
-        //   console.error('Error logging in', error);
+            if (error.response) {
+                console.error('Error response:', error.response);
+                showSwal('Login unsuccessful!', 'error');
+            } else if (error.request) {
+                console.error('Error request:', error.request);
+                showSwal('Login unsuccessful!', 'error');
+            } else {
+                console.error('Error message:', error.message);
+                showSwal('Login unsuccessful!', 'error');
+            }
         }
-      };
+        setUsername('');
+        setPassword('');
+    };
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //       const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
+
+    //     //   const token = response.data.token;
+
+    //     // Store token in local storage or session storage
+    //       localStorage.setItem('token', response.data.token);
+    //       console.log('Login successful!');
+    //     //   history.push('/dashboard');
+    //     } catch (error) {
+    //     //   console.error('Error logging in', error);
+    //         console.error('Login failed:', error.response.data);
+    //     }
+    //   };
 
 
     const showSwal = (title, icon) => {
