@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
   })
 })
 
-app.get('/users/user', (req, res) => {
+app.get('/user', (req, res) => {
   const sql = `select * from hpersonal;`;
 
   db.query(sql, (err, data) => {
@@ -36,7 +36,7 @@ app.get('/users/user', (req, res) => {
   })
 })
 
-app.get('/users/pharma', (req, res) => {
+app.get('/pharma', (req, res) => {
   const sql = `
   SELECT hperson.patlast,
   hperson.patfirst,
@@ -155,12 +155,10 @@ WHERE
 // const userRouter = require("./routes/userRoutes");
 
 //Routers
-const userRouter = require('./routes/userRoutes');
-app.get("/users", userRouter );
+// const userRouter = require('./routes/userRoutes');
+// app.get("/users", userRouter );
 
 
 app.listen(8081, () => {
   console.log("listening on port 8081");
 });
-
-
