@@ -1,9 +1,7 @@
-const express = require('express')
-<<<<<<< HEAD
-const userController = require("../controllers/userController")
-=======
-const userController = require('../controllers/userController')
->>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
+const express = require('express');
+
+const userController = require('../controllers/userController');
+
 const router = express.Router()
 const db = require('../connection');
 const bcrypt = require('bcrypt');
@@ -11,7 +9,6 @@ const jwt = require('jsonwebtoken');
 const auth = require('../auth');
 
 
-<<<<<<< HEAD
 // const JWT_SECRET = 'JWTSecretKey';
 
 // const authenticate = (req, res, next) => {
@@ -28,10 +25,8 @@ const auth = require('../auth');
 //         res.status(400).send('Invalid token.');
 //     }
 // };
-=======
 router.post('/register', userController.register);
 router.post('/login', userController.login);
->>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
 
 
 // router.post('/checkuser', async (req, res) => {
@@ -63,7 +58,6 @@ router.post('/login', userController.login);
 // router.post('/register', async (req, res) => {
 //     const { api_userName, api_userPass } = req.body;
 
-<<<<<<< HEAD
 router.get('/getuser', async (req, res) => {
     const sql = `SELECT * FROM api_user_acc`;
     db.query(sql, (error, results) => {
@@ -81,7 +75,7 @@ router.get('/getuser', async (req, res) => {
 
 
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res)) => {
 
     // Authenticate user from database
     const { api_userName, api_userPass } = req.body;
@@ -93,7 +87,6 @@ router.post('/login', async (req, res) => {
     // const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
     //  SELECT * FROM users WHERE username = ? AND password = ?
     const sql = `SELECT * FROM api_user_acc WHERE api_userName = ? AND api_userPass = ?`;
-=======
 //     if (!api_userName || !api_userPass) {
 //         return res.status(400).json({ message: 'Username and password are required' });
 //     }
@@ -103,7 +96,6 @@ router.post('/login', async (req, res) => {
 //         const hashedPassword = await bcrypt.hash(api_userPass, 10);
 //         // Store the new user with the hashed password
 //         const checkUsernameExist = `SELECT * FROM api_user_acc WHERE api_userName = ?`;
->>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
 
 //         db.query(checkUsernameExist, [api_userName], (error, results) => {
 //             if(error) throw error;
@@ -151,7 +143,6 @@ router.post('/login', async (req, res) => {
 //     // const token = jwt.sign({ userId: user._id }, 'SECRET_KEY', { expiresIn: '1h' });
 //     // res.json({ token });
 
-<<<<<<< HEAD
     // Check credentials from MySQL
     db.query(sql, [api_userName, api_userPass], (error, results) => {
         if (error) {
@@ -204,7 +195,7 @@ router.post('/login', async (req, res) => {
         // }
 
     });
-
+}
     
 
     // router.post('/protected', (req, res) => {
@@ -222,7 +213,6 @@ router.post('/login', async (req, res) => {
     //         res.send('You have accessed protected route');
     //     });
     // });
-=======
 //     db.query(sql, [api_userName], async (error, results) => {
 //         // if (error) {
 //         //     return res.status(500).json({ error: 'Database login error' });
@@ -250,7 +240,6 @@ router.post('/login', async (req, res) => {
 //         res.json({ token });
 
 //     })
->>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
 
 
 
