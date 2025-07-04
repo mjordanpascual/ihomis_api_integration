@@ -27,25 +27,15 @@ const Login = () => {
         e.preventDefault();
     
         try {
-<<<<<<< HEAD
-            const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
-    
-            if (!response.data) {
-=======
           const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
           if (!response.data) {
->>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
                 showSwal('Login unsuccessful!', 'error');
             } else {
                 showSwal('Login Successful!', 'success');
                 console.log(response.data)
-<<<<<<< HEAD
-                navigate('/dashboard');
-=======
                 setTimeout(() => {
                     navigate('/dashboard');
                   }, 2000);
->>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
             }
         } catch (error) {
             if (error.response) {
@@ -61,28 +51,7 @@ const Login = () => {
         }
         setUsername('');
         setPassword('');
-<<<<<<< HEAD
-    };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //       const response = await axios.post('http://localhost:8081/users/login', { api_userName, api_userPass });
-
-    //     //   const token = response.data.token;
-
-    //     // Store token in local storage or session storage
-    //       localStorage.setItem('token', response.data.token);
-    //       console.log('Login successful!');
-    //     //   history.push('/dashboard');
-    //     } catch (error) {
-    //     //   console.error('Error logging in', error);
-    //         console.error('Login failed:', error.response.data);
-    //     }
-    //   };
-=======
       };
->>>>>>> c4d94549f89e234c2e6711ba3dcca38f04b34a47
 
 
     const showSwal = (title, icon) => {

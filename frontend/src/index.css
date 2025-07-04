@@ -1,3 +1,19 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'); */
+body {
+    /* font-family: 'Inter', sans-serif; */
+      font-family: 'Montserrat', sans-serif;
+}
+.hero-gradient {
+    background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+}
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+.transition-all {
+    transition: all 0.3s ease;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
