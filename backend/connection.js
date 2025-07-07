@@ -4,9 +4,9 @@ const mysql = require('mysql');
 
 
 const db = mysql.createConnection({
-    host: "192.168.5.1",
+    host: "localhost",
     user: 'root',
-    password: 'R00t',
+    password: '',
     port: '3307',
     database: 'hospital_dbo'
 })
@@ -19,6 +19,14 @@ const db = mysql.createConnection({
 //     database: 'hospital_dbo'
 // });
 
+// Connect to MySQL
+db.connect(err => {
+    if (err) {
+        console.error('Database connection failed:', err);
+        return;
+    }
+    console.log('Connected to MySQL database');
+});
 
 // db.connect((err) => {
 //     if(!err)

@@ -2,14 +2,23 @@ import React from 'react'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import {useState, useEffect} from 'react'
+import Sidebar from './components/Sidebar'
+import Navbar2 from './components/Navbar2'
+import Dashboard from './components/Dashboard'
 
 const Home = () => {
   const { useState, useEffect } = React;
 
   return (
     <>
-      <div className='grid mt-5 justify-center align-middle'>
-        <h1>Home</h1>
+      <div className='flex'>
+        <Sidebar />
+        <div className='grow ml-16 md:ml-64 h-full lg:h-screen bg-gray-100 text-gray-900'>
+          <Navbar2 />
+          <div>
+            <Dashboard />
+          </div>
+        </div>
       </div>
     </>
     
