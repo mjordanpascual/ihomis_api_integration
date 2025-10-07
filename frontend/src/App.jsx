@@ -12,11 +12,7 @@ import Register from './pages/Register'
 import NoPageFound from './pages/NoPageFound'
 import CheckUsername from './pages/CheckUsername';
 import Navbar from './components/Navbar/Navbar'
-<<<<<<< HEAD
 // import Property from './departments/property/Property'
-=======
-import Property from './departments/inventory/Property'
->>>>>>> c54a62d5586b66570575141313b2ba2bcebf8428
 
 // import ProtectedRoute from './pages/ProtectedRoute';
 
@@ -28,11 +24,7 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Home />} />
           {/* <Route path="users/adm" element={<Adm />} /> */}
-<<<<<<< HEAD
           {/* <Route path="/property" element={<Property />} /> */}
-=======
-          <Route path="/property" element={<Property />} />
->>>>>>> c54a62d5586b66570575141313b2ba2bcebf8428
           <Route path="/uis" element={<UIS />} />
           <Route path="/dashboard" element={ <Dashboard /> } ></Route>
           <Route path="/login" element={ <Login /> } />
