@@ -1,41 +1,56 @@
-import { FaShoppingCart, FaTachometerAlt, FaUser, FaUsers, FaWrench } from 'react-icons/fa'
+import { useState } from 'react'
+import { FaHome, FaUserAlt, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa'
+import { IoCloseSharp } from 'react-icons/io5'
 
 const Sidebar = () => {
-  return (
-    <div className='bg-gray-100 text-gray-900 h-screen px-4 fixed w-16 md:w-64 border-r border-gray-300'>
-        <h1 className='text-2xl font-bold hidden md:block mt-1 py-4 text-center italic'>O.S.P.A.R</h1>
-        <ul className='flex flex-col mt-0 text-xl'>
-            <li className='flex items-center py-3 px-2 space-x-4 hover:rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white'>
-                <FaTachometerAlt />
-                <span className='hidden md:inline'>Dashboard</span>
-            </li>
-            <li className='flex items-center py-3 px-2 space-x-4 hover:rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white'>
-                <FaTachometerAlt />
-                <span className='hidden md:inline'>Category</span>
-            </li>
-            <li className='flex items-center py-3 px-2 space-x-4 hover:rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white'>
-                <FaShoppingCart />
-                <span className='hidden md:inline'>Products</span>
-            </li>
-            <li className='flex items-center py-3 px-2 space-x-4 hover:rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white'>
-                <FaUsers />
-                <span className='hidden md:inline'>Users</span>
-            </li>
-            <li className='flex items-center py-3 px-2 space-x-4 hover:rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white'>
-                <FaUser />
-                <span className='hidden md:inline'>Employee</span>
-            </li>
-            <li className='flex items-center py-3 px-2 space-x-4 hover:rounded hover:cursor-pointer hover:bg-blue-600 hover:text-white'>
-                <FaWrench />
-                <span className='hidden md:inline'>Settings</span>
-            </li>
+  const [isOpen, setIsOpen] = useState(false)
 
-        </ul>
-        <div>
-            <footer className='flex bg-slate-200 rounded float-end text-center'>
-                <h1>Footer</h1>
-            </footer>
-        </div>
+  return (
+    <div className='flex'>
+       <div className={`w-20 md:w-64 bg-gray-800 transition-width duration-300 text-white
+         ${isOpen ? ' w-64' : ' w-20'}
+         `}>
+            <div className='flex justify-between items-center p-4'>
+                <h2 className={`text-xl font-bold md:block ${isOpen ? "block" : "hidden"}`}>O.S.P.A.R 1</h2>
+                <button className='block md:hidden' onClick={() => setIsOpen(!isOpen)}>  
+                  {isOpen ? <IoCloseSharp size={24} /> : <FaBars size={24}/> }
+                </button>
+            </div>
+            <hr />
+            <nav className='mt-4'>
+              <ul>
+                <li className='flex items-center p-4 hover:bg-gray-700 cursor-pointer'>
+                <FaHome size={24} />
+                <span className={`ml-4 md:block' ${isOpen ? "block" : "hidden"}`}>
+                  Home
+                </span>
+                </li>
+                <li className='flex items-center p-4 hover:bg-gray-700 cursor-pointer'>
+                <FaUserAlt size={24} />
+                <span className={`ml-4 md:block' ${isOpen ? "block" : "hidden"}`}>
+                  Profile
+                </span>
+                </li>
+                <li className='flex items-center p-4 hover:bg-gray-700 cursor-pointer'>
+                <FaCog size={24} />
+                <span className={`ml-4 md:block' ${isOpen ? "block" : "hidden"}`}>
+                  Settings
+                </span>
+                </li>
+                <li className='flex items-center p-4 hover:bg-gray-700 cursor-pointer'>
+                <FaSignOutAlt size={24} />
+                <span className={`ml-4 md:block' ${isOpen ? "block" : "hidden"}`}>
+                  Logout
+                </span>
+                </li>
+              </ul>
+            </nav>
+       </div>
+       {/* dasbboard */}
+       <div className='p-8 bg-gray-100 min-h-screen flex-1'>
+          <h2 className='text-2xl font-bold'>Dashboard</h2>
+          <p className=''>Dashboard to the right side</p>
+       </div>
     </div>
   )
 }

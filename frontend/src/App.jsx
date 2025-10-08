@@ -11,7 +11,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import NoPageFound from './pages/NoPageFound'
 import CheckUsername from './pages/CheckUsername';
-import Navbar from './components/Navbar/Navbar'
+import Sidebar from './components/Sidebar';
 // import Property from './departments/property/Property'
 
 // import ProtectedRoute from './pages/ProtectedRoute';
