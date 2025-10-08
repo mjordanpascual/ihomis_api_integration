@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Home from './Home'
 import UIS from './forms/UIS';
 import Dashboard from './pages/Dashboard';
-import Sidebar from './pages/Sidebar';
+// import Sidebar from './pages/Sidebar';
 import Adm from './forms/Adm';
 import Login from './pages/Login'
 import Register from './pages/Register'

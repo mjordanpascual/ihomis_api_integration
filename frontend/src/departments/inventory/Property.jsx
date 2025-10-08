@@ -8,6 +8,10 @@ const property = () => {
         </div>
       </div>
       
+       <div className="bg-gray-100 h-100">
+        afasdf
+       </div>
+
     </>
   )
 }
