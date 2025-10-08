@@ -12,7 +12,7 @@ import Register from './pages/Register'
 import NoPageFound from './pages/NoPageFound'
 import CheckUsername from './pages/CheckUsername';
 import Navbar from './components/Navbar/Navbar'
-import Property from './departments/inventory/Property'
+// import Property from './departments/property/Property'
 
 // import ProtectedRoute from './pages/ProtectedRoute';
 
@@ -24,7 +24,7 @@ function App() {
         <Routes>
           <Route path="/" exact element={<Home />} />
           {/* <Route path="users/adm" element={<Adm />} /> */}
-          <Route path="/property" element={<Property />} />
+          {/* <Route path="/property" element={<Property />} /> */}
           <Route path="/uis" element={<UIS />} />
           <Route path="/dashboard" element={ <Dashboard /> } ></Route>
           <Route path="/login" element={ <Login /> } />
