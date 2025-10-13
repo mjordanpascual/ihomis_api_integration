@@ -8,7 +8,7 @@ const Sidebar = () => {
   return (
     <div className='flex'>
        <div className={`w-20 md:w-64 bg-gray-800 transition-width duration-300 text-white
-         ${isOpen ? ' w-64' : ' w-20'}
+         ${isOpen ? 'w-64' : ' w-20'}
          `}>
             <div className='flex justify-between items-center p-4'>
                 <h2 className={`text-xl font-bold md:block ${isOpen ? "block" : "hidden"}`}>O.S.P.A.R 1</h2>
@@ -21,25 +21,25 @@ const Sidebar = () => {
               <ul>
                 <li className='flex items-center p-4 hover:bg-gray-700 cursor-pointer'>
                 <FaHome size={24} />
-                <span className={`ml-4 md:block' ${isOpen ? "block" : "hidden"}`}>
+                <span className={`ml-4 md:block ${isOpen ? "block" : "hidden"}`}>
                   Home
                 </span>
                 </li>
                 <li className='flex items-center p-4 hover:bg-gray-700 cursor-pointer'>
                 <FaUserAlt size={24} />
-                <span className={`ml-4 md:block' ${isOpen ? "block" : "hidden"}`}>
+                <span className={`ml-4 md:block ${isOpen ? "block" : "hidden"}`}>
                   Profile
                 </span>
                 </li>
                 <li className='flex items-center p-4 hover:bg-gray-700 cursor-pointer'>
                 <FaCog size={24} />
-                <span className={`ml-4 md:block' ${isOpen ? "block" : "hidden"}`}>
+                <span className={`ml-4 md:block ${isOpen ? "block" : "hidden"}`}>
                   Settings
                 </span>
                 </li>
                 <li className='flex items-center p-4 hover:bg-gray-700 cursor-pointer'>
                 <FaSignOutAlt size={24} />
-                <span className={`ml-4 md:block' ${isOpen ? "block" : "hidden"}`}>
+                <span className={`ml-4 md:block ${isOpen ? "block" : "hidden"}`}>
                   Logout
                 </span>
                 </li>
