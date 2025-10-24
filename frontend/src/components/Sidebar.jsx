@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import { FaHome, FaUserAlt, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa'
+import { FaHome, FaUserAlt, FaCog, FaSignOutAlt, FaBars, FaArrowDown, FaCaretDown } from 'react-icons/fa'
 import { IoCloseSharp } from 'react-icons/io5'
 import Marloe from '../assets/marquez.jpg'
 
@@ -76,12 +76,12 @@ const Sidebar = () => {
             </nav>
         </div>
         <div className='min-h-screen flex-1 ml-64 md:w-64'>
-        <div className='flex bg-gray-300/20 justify-between align-items-center px-4 border-b'>
+        <div className='flex bg-gray-200/100 sticky top-0 justify-between align-items-center px-4 border-b'>
             <h2 className='text-2xl font-bold'>Dashboard</h2>
             <span className='hidden md:hidden sm:hidden'>Welcome back, <b>Marloe</b></span>
             <div className='flex justify-center align-items-center'>
               <img className="w-12 h-18 m-1 rounded-full border-2 object-cover" src={Marloe} alt="Profile Picture" />
-              <span>Caret</span>
+              <span className='hover:bg-slate-300 transition duration-100'><FaCaretDown size={18} /></span>
             </div>
         </div>
             {/* <p className=''>Dashboard to the right side</p> */}
