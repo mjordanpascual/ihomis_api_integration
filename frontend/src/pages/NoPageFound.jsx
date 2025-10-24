@@ -9,7 +9,7 @@ export default function NoPageFound () {
 			<Row className="my-3">
 				<Col className="col-6 mx-auto">
 				{/* <img src = { errorPage } alt = "Error Web page!" /> */}
-				<p className='text-red-900 bg-yellow-400'>Back to <Link to = '/'>Homepage</Link></p>
+				<p className='text-red-900 bg-yellow-400'><Link to = '/'>Back to Homepage</Link></p>
 				</Col>
 			</Row>		  	
 		</>

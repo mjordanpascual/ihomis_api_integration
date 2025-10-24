@@ -1,8 +1,5 @@
-import React from 'react'
-import Login from './pages/Login'
-import Register from './pages/Register'
-import {useState, useEffect} from 'react'
 import Sidebar from './components/Sidebar'
+import Products from './pages/Products'
 
 const Home = () => {
 
@@ -10,6 +7,7 @@ const Home = () => {
     <>
       <div>
         <Sidebar />
+        {/* <Products /> */}
       </div>
     </>
     

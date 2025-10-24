@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -12,6 +11,11 @@ import Register from './pages/Register'
 import NoPageFound from './pages/NoPageFound'
 import CheckUsername from './pages/CheckUsername';
 import Sidebar from './components/Sidebar';
+import Products from './pages/Products'
+import Categories from './pages/Categories'
+import Departments from './pages/Departments'
+import Employees from './pages/Employees'
+// import Adm from './users/adm/Adm'
 // import Property from './departments/property/Property'
 
 // import ProtectedRoute from './pages/ProtectedRoute';
@@ -30,6 +34,12 @@ function App() {
           <Route path="/login" element={ <Login /> } />
           <Route path="/register" element={ <Register /> } />
           <Route path="/checkuser" element={ <CheckUsername /> } />
+
+          <Route path="/products" element={<Products />} />
+          <Route path="/categories" element={<Categories />} />
+          <Route path="/departments" element={<Departments />} />
+          <Route path="/employees" element={<Employees />} />
+
 
           {/* <ProtectedRoute path="/protected" component={Dashboard} /> */}
 
